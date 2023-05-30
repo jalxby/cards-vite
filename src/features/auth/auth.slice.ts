@@ -12,6 +12,7 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     profile: null as null | ProfileType,
+    info: "",
   },
   reducers: {},
 
@@ -22,6 +23,10 @@ const slice = createSlice({
       })
       .addCase(me.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
+      })
+      .addCase(signOut.fulfilled, (state, action) => {
+        state.info = action.payload.info;
+        state.profile = null;
       });
   },
 });
@@ -43,6 +48,14 @@ const signIn = createAppAsyncThunk<{ profile: ProfileType }, ArgSignInType>(
   }
 );
 
+const signOut = createAppAsyncThunk<{ info: string }>(
+  "auth/signOut",
+  async () => {
+    const res = await authApi.signOut();
+    return { info: res.data.info };
+  }
+);
+
 const me = createAppAsyncThunk("auth/me", async (_, thunkAPI) => {
   return thunkTryCatch(thunkAPI, async () => {
     await authApi.me();
@@ -50,5 +63,5 @@ const me = createAppAsyncThunk("auth/me", async (_, thunkAPI) => {
 });
 
 export const authReducer = slice.reducer;
-export const authThunks = { signUp, signIn, me };
+export const authThunks = { signUp, signIn, me, signOut };
 export const authActions = slice.actions;

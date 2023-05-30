@@ -1,4 +1,3 @@
-import { authThunks } from "@/features/auth/auth.slice.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const slice = createSlice({
@@ -15,9 +14,6 @@ const slice = createSlice({
     setError: (state, action: PayloadAction<{ error: string | null }>) => {
       state.error = action.payload.error;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(authThunks.me.rejected, () => {});
   },
 });
 

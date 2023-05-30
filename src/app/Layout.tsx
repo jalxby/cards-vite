@@ -1,16 +1,45 @@
-import { BodyApp } from "@/app/BodyApp.tsx";
 import { GlobalError } from "@/common/GlobalError.tsx";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectTokenDeathTime } from "@/features/auth/auth.selectors.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
+import { SignIn } from "@/features/auth/Sign-in/Sign-in.tsx";
+import { SignUp } from "@/features/auth/Sign-up/Sign-up.tsx";
 import { HeaderContainer } from "@/features/Header/HeaderContainer.tsx";
+import Packs from "@/features/Packs.tsx";
 import { AppShell, Header } from "@mantine/core";
 import { useEffect } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Packs />,
+  },
+  {
+    path: "/signUp",
+    element: <SignUp />,
+  },
+  {
+    path: "/signIn",
+    element: <SignIn />,
+  },
+  {
+    path: "*",
+    element: <div>404 not found</div>,
+  },
+]);
 export const Layout = () => {
   const tokenDeathTime = useAppSelector(selectTokenDeathTime);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const toSignIn = (url: string) => {
+    navigate(url);
+  };
 
   useEffect(() => {
     if (!tokenDeathTime || tokenDeathTime > Number(new Date())) {
@@ -24,7 +53,7 @@ export const Layout = () => {
         padding="md"
         header={
           <Header height={60} p="xs">
-            <HeaderContainer />
+            <HeaderContainer toSignIn={toSignIn} />
           </Header>
         }
         styles={(theme) => ({
@@ -36,7 +65,7 @@ export const Layout = () => {
           },
         })}
       >
-        <BodyApp />
+        <RouterProvider router={router} />;
         <GlobalError />
       </AppShell>
     </div>
