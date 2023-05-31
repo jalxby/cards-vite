@@ -5,6 +5,7 @@ import { selectTokenDeathTime } from "@/features/auth/auth.selectors.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import { SignIn } from "@/features/auth/Sign-in/Sign-in.tsx";
 import { SignUp } from "@/features/auth/Sign-up/Sign-up.tsx";
+import { ForgotPassword } from "@/features/Forgot-password.tsx";
 import { HeaderContainer } from "@/features/Header/HeaderContainer.tsx";
 import Packs from "@/features/Packs.tsx";
 import { AppShell, Header } from "@mantine/core";
@@ -45,6 +46,7 @@ export const Layout = () => {
           <Route path={"/"} element={<Packs />} />
           <Route path={"/signUp"} element={<SignUp />} />
           <Route path={"/signIn"} element={<SignIn />} />
+          <Route path={"/forgotpassword"} element={<ForgotPassword />} />
           <Route path={"/*"} element={<div>404 not found</div>} />
         </Routes>
         <GlobalError />

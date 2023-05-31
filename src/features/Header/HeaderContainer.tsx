@@ -1,20 +1,19 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import { globalRouter } from "@/common/utils/globalRouter.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import { Button, Title } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
 import s from "./HeaderContainer.module.scss";
 
 export const HeaderContainer = () => {
   const name = useAppSelector((state) => state.auth.profile?.name);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const signOut = () => {
     dispatch(authThunks.signOut());
   };
 
   const toSignIn = () => {
-    navigate("/signin");
+    globalRouter.navigate && globalRouter.navigate("/signin");
   };
 
   return (

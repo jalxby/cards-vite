@@ -11,6 +11,7 @@ export const thunkTryCatch = async (
   try {
     return await logic();
   } catch (e) {
+    console.log("from thunkTryCatch", e);
     const err = e as Error | AxiosError<{ error: string }>;
     if (isAxiosError(err)) {
       const error = err.response ? err.response.data.error : err.message;

@@ -3,6 +3,7 @@ import { thunkTryCatch } from "@/common/utils/thunk-try-catch.ts";
 import {
   ArgSignInType,
   authApi,
+  PassRecoveryType,
   ProfileType,
   SignUpPayloadType,
 } from "@/features/auth/auth.api.ts";
@@ -58,12 +59,26 @@ const signOut = createAppAsyncThunk<{ info: string }>(
   }
 );
 
-const me = createAppAsyncThunk("auth/me", async (_, thunkAPI) => {
-  return thunkTryCatch(thunkAPI, async () => {
-    await authApi.me();
-  });
-});
+const me = createAppAsyncThunk<{ profile: ProfileType }>(
+  "auth/me",
+  async (_, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authApi.me();
+      return { profile: res.data };
+    });
+  }
+);
+
+const newPassRequest = createAppAsyncThunk<{ info: string }, PassRecoveryType>(
+  "auth/newPassRequest",
+  async (args, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authApi.newPassRequest(args);
+      return { info: res.data.info };
+    });
+  }
+);
 
 export const authReducer = slice.reducer;
-export const authThunks = { signUp, signIn, me, signOut };
+export const authThunks = { signUp, signIn, me, signOut, newPassRequest };
 export const authActions = slice.actions;

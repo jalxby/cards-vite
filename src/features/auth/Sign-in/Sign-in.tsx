@@ -21,7 +21,9 @@ export const SignIn = () => {
       dispatch(authThunks.signIn(values));
     },
   });
+  console.log(token);
   if (token) {
+    debugger;
     return <Navigate to={"/"} />;
   }
   return (
