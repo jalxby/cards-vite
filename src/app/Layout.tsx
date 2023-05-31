@@ -43,7 +43,7 @@ export const Layout = () => {
         })}
       >
         <Routes>
-          <Route path={"/"} element={<Packs />} />
+          <Route path={"/cards-vite"} element={<Packs />} />
           <Route path={"/signUp"} element={<SignUp />} />
           <Route path={"/signIn"} element={<SignIn />} />
           <Route path={"/forgotpassword"} element={<ForgotPassword />} />

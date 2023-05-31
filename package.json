@@ -1,6 +1,6 @@
 {
-  "name": "cards",
-  "homepage": "https://jalxby.github.io/cards",
+  "name": "cards-vite",
+  "homepage": "https://jalxby.github.io/cards-vite",
   "private": true,
   "version": "0.0.0",
   "type": "module",
