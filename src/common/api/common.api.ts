@@ -12,3 +12,11 @@ export const instancePassRestore = axios.create({
   baseURL: "https://neko-back.herokuapp.com/2.0/",
   withCredentials: true,
 });
+instance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    console.log("from interceptor", error);
+  }
+);

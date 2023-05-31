@@ -1,5 +1,37 @@
 .container {
+  .paper {
+    margin: 0 auto;
+    width: 413px;
+    height: 552px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+
+    .submitButton {
+      background: #366EFF;
+      box-shadow: 0 4px 18px rgba(54, 110, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      border-radius: 30px;
+      width: 347px;
+      height: 36px;
+    }
+  }
+
+  .title {
+    width: 93px;
+    height: 32px;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 32px;
+    color: #000000;
+  }
 }
+
+
+
+
+

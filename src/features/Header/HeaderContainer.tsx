@@ -1,22 +1,20 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import { Button, Title } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import s from "./HeaderContainer.module.scss";
 
-type PropsType = {
-  toSignIn: (url: string) => void;
-};
-
-export const HeaderContainer = (props: PropsType) => {
+export const HeaderContainer = () => {
   const name = useAppSelector((state) => state.auth.profile?.name);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const signOut = () => {
     dispatch(authThunks.signOut());
   };
 
   const toSignIn = () => {
-    props.toSignIn("/login");
+    navigate("/signin");
   };
 
   return (

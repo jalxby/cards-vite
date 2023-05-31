@@ -1,5 +1,6 @@
 import { GlobalError } from "@/common/GlobalError.tsx";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import { globalRouter } from "@/common/utils/globalRouter.ts";
 import { selectTokenDeathTime } from "@/features/auth/auth.selectors.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import { SignIn } from "@/features/auth/Sign-in/Sign-in.tsx";
@@ -8,38 +9,13 @@ import { HeaderContainer } from "@/features/Header/HeaderContainer.tsx";
 import Packs from "@/features/Packs.tsx";
 import { AppShell, Header } from "@mantine/core";
 import { useEffect } from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Packs />,
-  },
-  {
-    path: "/signUp",
-    element: <SignUp />,
-  },
-  {
-    path: "/signIn",
-    element: <SignIn />,
-  },
-  {
-    path: "*",
-    element: <div>404 not found</div>,
-  },
-]);
 export const Layout = () => {
+  globalRouter.navigate = useNavigate();
   const tokenDeathTime = useAppSelector(selectTokenDeathTime);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const toSignIn = (url: string) => {
-    navigate(url);
-  };
 
   useEffect(() => {
     if (!tokenDeathTime || tokenDeathTime > Number(new Date())) {
@@ -53,7 +29,7 @@ export const Layout = () => {
         padding="md"
         header={
           <Header height={60} p="xs">
-            <HeaderContainer toSignIn={toSignIn} />
+            <HeaderContainer />
           </Header>
         }
         styles={(theme) => ({
@@ -65,7 +41,12 @@ export const Layout = () => {
           },
         })}
       >
-        <RouterProvider router={router} />;
+        <Routes>
+          <Route path={"/"} element={<Packs />} />
+          <Route path={"/signUp"} element={<SignUp />} />
+          <Route path={"/signIn"} element={<SignIn />} />
+          <Route path={"/*"} element={<div>404 not found</div>} />
+        </Routes>
         <GlobalError />
       </AppShell>
     </div>

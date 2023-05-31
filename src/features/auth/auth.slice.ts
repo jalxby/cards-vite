@@ -33,7 +33,7 @@ const slice = createSlice({
 
 const signUp = createAppAsyncThunk<void, SignUpPayloadType>(
   "auth/signUp",
-  async (arg: SignUpPayloadType, thunkAPI) => {
+  async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       await authApi.signUp(arg);
     });
@@ -42,9 +42,11 @@ const signUp = createAppAsyncThunk<void, SignUpPayloadType>(
 
 const signIn = createAppAsyncThunk<{ profile: ProfileType }, ArgSignInType>(
   "auth/signIn",
-  async (arg) => {
-    const res = await authApi.signIn(arg);
-    return { profile: res.data };
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authApi.signIn(arg);
+      return { profile: res.data };
+    });
   }
 );
 
