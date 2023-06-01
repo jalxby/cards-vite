@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, Paper } from "@mantine/core";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
 const schema = yup.object({
@@ -14,19 +14,21 @@ const schema = yup.object({
 type FormData = yup.InferType<typeof schema>;
 export const ForgotPassword = () => {
   const dispatch = useAppDispatch();
+  const redirect = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     const { email } = data;
     const message = `<div style="background-color: lime; padding: 15px">
                        password recovery link:
-                       <a href="http://localhost:3000/#/set-new-password/$token$">link</a>
+                       <a href="http://localhost:5173/#/createNewPass/$token$">link</a>
                     </div>`;
-    dispatch(authThunks.newPassRequest({ email, message }));
+    await dispatch(authThunks.newPassRequest({ email, message }));
+    redirect("/checkEmail");
   };
 
   return (

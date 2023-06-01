@@ -35,7 +35,7 @@ export const SignUp = () => {
   return (
     <div className={s.container}>
       <Paper className={s.paper} shadow="xs" radius="xs" p="sm">
-        <div className={s.title}>Sign In</div>
+        <div className={s.title}>Sign Up</div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input.Wrapper label="Email">
             <Input {...register("email")} />

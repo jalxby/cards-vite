@@ -3,7 +3,9 @@ import { thunkTryCatch } from "@/common/utils/thunk-try-catch.ts";
 import {
   ArgSignInType,
   authApi,
+  NewPasswordType,
   PassRecoveryType,
+  ProfileModel,
   ProfileType,
   SignUpPayloadType,
 } from "@/features/auth/auth.api.ts";
@@ -28,6 +30,9 @@ const slice = createSlice({
       .addCase(signOut.fulfilled, (state, action) => {
         state.info = action.payload.info;
         state.profile = null;
+      })
+      .addCase(changeProfile.fulfilled, (state, action) => {
+        state.profile = action.payload.profile;
       });
   },
 });
@@ -71,14 +76,42 @@ const me = createAppAsyncThunk<{ profile: ProfileType }>(
 
 const newPassRequest = createAppAsyncThunk<{ info: string }, PassRecoveryType>(
   "auth/newPassRequest",
-  async (args, thunkAPI) => {
+  async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await authApi.newPassRequest(args);
+      const res = await authApi.newPassRequest(arg);
       return { info: res.data.info };
     });
   }
 );
 
+const setNewPass = createAppAsyncThunk<{ info: string }, NewPasswordType>(
+  "auth/setNewPass",
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authApi.setNewPass(arg);
+      return { info: res.data.info };
+    });
+  }
+);
+
+const changeProfile = createAppAsyncThunk<
+  { profile: ProfileType },
+  ProfileModel
+>("auth/changeProfile", async (arg, thunkAPI) => {
+  return thunkTryCatch(thunkAPI, async () => {
+    const res = await authApi.changeProfile(arg);
+    return { profile: res.data.updatedUser };
+  });
+});
+
 export const authReducer = slice.reducer;
-export const authThunks = { signUp, signIn, me, signOut, newPassRequest };
+export const authThunks = {
+  signUp,
+  signIn,
+  me,
+  signOut,
+  newPassRequest,
+  setNewPass,
+  changeProfile,
+};
 export const authActions = slice.actions;

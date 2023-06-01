@@ -23,8 +23,8 @@ export const authApi = {
     return instance.post<ProfileType, AxiosResponse<ProfileType>>("auth/me");
   },
   changeProfile(payload: ProfileModel) {
-    return instance.put<ProfileType, AxiosResponse<ProfileType>>(
-      "auth.me",
+    return instance.put<UpdatedUser, AxiosResponse<UpdatedUser>>(
+      "auth/me",
       payload
     );
   },
@@ -71,7 +71,9 @@ export type ProfileModel = {
   name?: string;
   avatar?: URL;
 };
-
+type UpdatedUser = {
+  updatedUser: ProfileType;
+};
 export type ProfileType = {
   _id: string;
   email: string;

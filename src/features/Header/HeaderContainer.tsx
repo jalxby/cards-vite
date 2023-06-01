@@ -1,16 +1,13 @@
+import { HeaderLogo } from "@/assets/HeaderLogo.tsx";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { globalRouter } from "@/common/utils/globalRouter.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
-import { Button, Title } from "@mantine/core";
+import { Button } from "@mantine/core";
+import { NavLink } from "react-router-dom";
 import s from "./HeaderContainer.module.scss";
 
 export const HeaderContainer = () => {
   const name = useAppSelector((state) => state.auth.profile?.name);
-  const dispatch = useAppDispatch();
-
-  const signOut = () => {
-    dispatch(authThunks.signOut());
-  };
 
   const toSignIn = () => {
     globalRouter.navigate && globalRouter.navigate("/signin");
@@ -18,11 +15,12 @@ export const HeaderContainer = () => {
 
   return (
     <div className={s.headerContainer} style={{}}>
-      <Title variant="h2">IT-Incubator</Title>
+      <HeaderLogo />
       {name ? (
         <>
-          {name}
-          <Button onClick={signOut}>Sign out</Button>
+          <NavLink style={{ display: "block" }} to={"/profile"}>
+            {name}
+          </NavLink>
         </>
       ) : (
         <Button onClick={toSignIn}>Sign in</Button>

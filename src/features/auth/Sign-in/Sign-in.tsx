@@ -23,7 +23,6 @@ export const SignIn = () => {
   });
   console.log(token);
   if (token) {
-    debugger;
     return <Navigate to={"/"} />;
   }
   return (
