@@ -39,7 +39,7 @@ export const Layout = () => {
           },
         })}
       >
-        <NavLink to={"/cards-vite/createnewpass/asd"}>link</NavLink>
+        <NavLink to={"/createnewpass/asd"}>link</NavLink>
         <Routes>
           {routes.map((route) => (
             <Route key={route.path} path={route.path} element={route.element} />
