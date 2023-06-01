@@ -20,13 +20,13 @@ export const ForgotPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ resolver: yupResolver(schema) });
-
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     const { email } = data;
-    const message = `<div style="background-color: lime; padding: 15px">
-                       password recovery link:
-                       <a href="https://jalxby.github.io/cards-vite/#/createnewpass/$token$">link</a>
-                    </div>`;
+    const message = `<div style="background-color: lime; padding: 15px">password recovery link:<a href=${
+      import.meta.env.DEV
+        ? import.meta.env.VITE_DEV_URL
+        : import.meta.env.VITE_PROD_URL
+    }/$token$">link</a></div>`;
     await dispatch(authThunks.newPassRequest({ email, message }));
     redirect("/checkEmail");
   };
@@ -56,3 +56,8 @@ export const ForgotPassword = () => {
     </div>
   );
 };
+// href={
+//     ${import.meta.env.DEV}
+//     ? ${import.meta.env.VITE_DEV_URL} + "/$token$"
+//     : ${import.meta.env.VITE_PROD_URL} + "/$token$"
+// }

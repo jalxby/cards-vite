@@ -14,6 +14,7 @@ export const Layout = () => {
   globalRouter.navigate = useNavigate();
   const tokenDeathTime = useAppSelector(selectTokenDeathTime);
   const dispatch = useAppDispatch();
+  console.log("some key", import.meta.env.VITE_PROD_URL);
 
   useEffect(() => {
     if (!tokenDeathTime || tokenDeathTime < Number(new Date())) {
@@ -39,6 +40,7 @@ export const Layout = () => {
           },
         })}
       >
+        <a href="">link</a>
         <NavLink to={"/createnewpass/asd"}>link</NavLink>
         <Routes>
           {routes.map((route) => (
