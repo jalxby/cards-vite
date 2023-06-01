@@ -6,7 +6,7 @@ import Packs from "@/features/Packs.tsx";
 import { Profile } from "@/features/Profile/Profile.tsx";
 import { CreateNewPassword } from "@/features/Set-new-password.tsx";
 
-const basePath = "/cards-vite";
+const basePath = "/";
 export const routes = [
   {
     path: `${basePath}`,
