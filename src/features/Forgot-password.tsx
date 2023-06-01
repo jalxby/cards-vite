@@ -25,7 +25,7 @@ export const ForgotPassword = () => {
     const { email } = data;
     const message = `<div style="background-color: lime; padding: 15px">
                        password recovery link:
-                       <a href="http://localhost:5173/#/createNewPass/$token$">link</a>
+                       <a href="https://jalxby.github.io/createNewPass/$token$">link</a>
                     </div>`;
     await dispatch(authThunks.newPassRequest({ email, message }));
     redirect("/checkEmail");
