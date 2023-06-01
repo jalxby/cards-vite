@@ -10,7 +10,7 @@ const root = createRoot(container);
 
 root.render(
   <Provider store={store}>
-    <HashRouter basename={"/"}>
+    <HashRouter>
       <App />
     </HashRouter>
   </Provider>
