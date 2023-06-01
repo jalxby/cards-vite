@@ -7,7 +7,7 @@ import { authThunks } from "@/features/auth/auth.slice.ts";
 import { HeaderContainer } from "@/features/Header/HeaderContainer.tsx";
 import { AppShell, Header } from "@mantine/core";
 import { useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Layout = () => {
@@ -39,6 +39,7 @@ export const Layout = () => {
           },
         })}
       >
+        <NavLink to={"/cards-vite/createnewpass/asd"}>link</NavLink>
         <Routes>
           {routes.map((route) => (
             <Route key={route.path} path={route.path} element={route.element} />

@@ -7,7 +7,7 @@ const Packs = () => {
   globalRouter.navigate = useNavigate();
   const token = useAppSelector(selectToken);
   if (!token) {
-    return <Navigate to={"/signin"} />;
+    // return <Navigate to={"/signin"} />;
   }
   return <div>Packs</div>;
 };

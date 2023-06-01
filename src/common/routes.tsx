@@ -6,37 +6,38 @@ import Packs from "@/features/Packs.tsx";
 import { Profile } from "@/features/Profile/Profile.tsx";
 import { CreateNewPassword } from "@/features/Set-new-password.tsx";
 
+const basePath = "/cards-vite";
 export const routes = [
   {
-    path: "/cards-vite",
+    path: `${basePath}`,
     element: <Packs />,
   },
   {
-    path: "/signUp",
+    path: `${basePath}/signup`,
     element: <SignUp />,
   },
   {
-    path: "/signIn",
+    path: `${basePath}/signin`,
     element: <SignIn />,
   },
   {
-    path: "/forgotPassword",
+    path: `${basePath}/forgotpassword`,
     element: <ForgotPassword />,
   },
   {
-    path: "/checkEmail",
+    path: `${basePath}/checkemail`,
     element: <CheckEmail />,
   },
   {
-    path: "/profile",
+    path: `${basePath}/profile`,
     element: <Profile />,
   },
   {
-    path: "/cards-vite/createnewpass/:token",
+    path: `${basePath}/createnewpass/:token`,
     element: <CreateNewPassword />,
   },
   {
-    path: "/*",
+    path: "*",
     element: <div>404 not found</div>,
   },
 ];
