@@ -5,7 +5,7 @@ import eslintPlugin from "vite-plugin-eslint";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/",
+  base: "/cards-vite",
   plugins: [
     react(),
     eslintPlugin({
