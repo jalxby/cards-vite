@@ -46,14 +46,14 @@ export const Layout = () => {
         })}
       >
         <Routes>
-          <Route path={"/"} element={<Packs />} />
+          <Route path={"/cards-vite"} element={<Packs />} />
           <Route path={"/signUp"} element={<SignUp />} />
           <Route path={"/signIn"} element={<SignIn />} />
           <Route path={"/forgotPassword"} element={<ForgotPassword />} />
           <Route path={"/checkEmail"} element={<CheckEmail />} />
           <Route path={"/profile"} element={<Profile />} />
           <Route
-            path={"/createNewPass/:token"}
+            path={"/cards-vite/createnewpass/:token"}
             element={<CreateNewPassword />}
           />
           <Route path={"/*"} element={<div>404 not found</div>} />
