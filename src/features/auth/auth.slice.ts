@@ -10,6 +10,7 @@ import {
   ProfileType,
   SignUpPayloadType,
 } from "@/features/auth/auth.api.ts";
+import { packsThunks } from "@/features/packs/packs.slice.ts";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
@@ -76,6 +77,7 @@ const me = createAppAsyncThunk<{ profile: ProfileType }>(
   async (_, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await authApi.me();
+      thunkAPI.dispatch(packsThunks.getPacks());
       return { profile: res.data };
     });
   }

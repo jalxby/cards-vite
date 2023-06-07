@@ -1,18 +1,24 @@
 import { selectIsLoading } from "@/app/app.selectors.ts";
-import { useAppSelector } from "@/common/hooks/hooks.ts";
-import { routes } from "@/common/routes.tsx";
-import { globalRouter } from "@/common/utils/globalRouter.ts";
+import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import { authThunks } from "@/features/auth/auth.slice.ts";
 import { HeaderContainer } from "@/features/Header/HeaderContainer.tsx";
 import { AppShell, Header, Loader } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Layout = () => {
-  globalRouter.navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const isLoading = useAppSelector(selectIsLoading);
-
+  useEffect(() => {
+    dispatch(authThunks.me())
+      .unwrap()
+      .catch(() => {
+        navigate("/signin");
+      });
+  }, []);
   return (
     <div>
       <AppShell
@@ -31,39 +37,26 @@ export const Layout = () => {
           },
         })}
       >
-        {isLoading ? (
+        {isLoading && (
           <div
             style={{
+              zIndex: 10,
+              width: "100%",
+              height: "100%",
+              position: "fixed",
+              top: 0,
+              left: 0,
               display: "flex",
-              justifyContent: "space-around",
-              marginTop: "10%",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Прозрачный черный фон
             }}
           >
             <Loader size="xl" variant="bars" />
           </div>
-        ) : (
-          <Routes>
-            {routes.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={route.element}
-              />
-            ))}
-          </Routes>
         )}
-
+        <Outlet />
         <Notifications />
-        <div>
-          {routes.map((route) => (
-            <NavLink
-              to={"http://localhost:5173/" + route.path.slice(2)}
-              key={route.path}
-            >
-              {route.path.slice(1)} |{" "}
-            </NavLink>
-          ))}
-        </div>
       </AppShell>
     </div>
   );

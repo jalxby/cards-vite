@@ -1,14 +1,13 @@
 import { useAppDispatch } from "@/common/hooks/hooks.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Checkbox, Paper, PasswordInput } from "@mantine/core";
+import { Button, Checkbox, Input, Paper, PasswordInput } from "@mantine/core";
 import { IconEyeCheck, IconEyeOff } from "@tabler/icons-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import s from "./Signin.module.scss";
-import { Input } from "@mantine/core";
 
 const schema = yup.object({
   email: yup
@@ -40,7 +39,7 @@ export const SignIn = () => {
     dispatch(authThunks.signIn(data))
       .unwrap()
       .then(() => {
-        navigate("/");
+        navigate("/packs");
       })
       .catch((error) => {
         toast(error);
@@ -49,6 +48,9 @@ export const SignIn = () => {
 
   return (
     <div className={s.container}>
+      <div>
+        <NavLink to={"/packs"}>packs</NavLink>
+      </div>
       <Paper className={s.paper} shadow="xs" radius="xs" p="sm">
         <div className={s.title}>Sign In</div>
         <form onSubmit={handleSubmit(onSubmit)}>

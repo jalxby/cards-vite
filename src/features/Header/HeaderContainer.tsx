@@ -1,8 +1,7 @@
 import { HeaderLogo } from "@/assets/HeaderLogo.tsx";
-import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import { useAppSelector } from "@/common/hooks/hooks.ts";
 import { globalRouter } from "@/common/utils/globalRouter.ts";
 import { selectName } from "@/features/auth/auth.selectors.ts";
-import { authThunks } from "@/features/auth/auth.slice.ts";
 import { Button } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 import s from "./HeaderContainer.module.scss";

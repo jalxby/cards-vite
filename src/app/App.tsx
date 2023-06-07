@@ -1,9 +1,10 @@
-import { Layout } from "@/app/Layout.tsx";
+import { routes } from "@/common/routes.tsx";
+import { RouterProvider } from "react-router-dom";
 
 export function App() {
   return (
     <div className="App">
-      <Layout />
+      <RouterProvider router={routes} />
     </div>
   );
 }
