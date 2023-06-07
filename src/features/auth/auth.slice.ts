@@ -1,4 +1,5 @@
 import { createAppAsyncThunk } from "@/common/utils/createAppAsyncThunk.ts";
+import { globalRouter } from "@/common/utils/globalRouter.ts";
 import { thunkTryCatch } from "@/common/utils/thunk-try-catch.ts";
 import {
   ArgSignInType,
@@ -9,7 +10,7 @@ import {
   ProfileType,
   SignUpPayloadType,
 } from "@/features/auth/auth.api.ts";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   name: "auth",
@@ -42,6 +43,7 @@ const signUp = createAppAsyncThunk<void, SignUpPayloadType>(
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       await authApi.signUp(arg);
+      globalRouter.navigate && globalRouter.navigate("/signin");
     });
   }
 );
@@ -56,13 +58,18 @@ const signIn = createAppAsyncThunk<{ profile: ProfileType }, ArgSignInType>(
   }
 );
 
-const signOut = createAppAsyncThunk<{ info: string }>(
-  "auth/signOut",
-  async () => {
+const signOut = createAsyncThunk<
+  { info: string },
+  unknown,
+  { rejectValue: string }
+>("auth/signOut", async (arg, thunkAPI) => {
+  try {
     const res = await authApi.signOut();
     return { info: res.data.info };
+  } catch (e) {
+    return thunkAPI.rejectWithValue("error");
   }
-);
+});
 
 const me = createAppAsyncThunk<{ profile: ProfileType }>(
   "auth/me",
@@ -89,6 +96,7 @@ const setNewPass = createAppAsyncThunk<{ info: string }, NewPasswordType>(
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await authApi.setNewPass(arg);
+      globalRouter.navigate && globalRouter.navigate("/signin");
       return { info: res.data.info };
     });
   }

@@ -1,21 +1,50 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getErrorMessage } from "@/common/utils/getErrorMessage.ts";
+import { notifications } from "@mantine/notifications";
+import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   name: "app",
   initialState: {
     error: null as string | null,
-    isLoading: true,
+    isLoading: false,
     isAppInitialized: false,
   },
-  reducers: {
-    setIsLoading: (state, action: PayloadAction<{ isLoading: boolean }>) => {
-      state.isLoading = action.payload.isLoading;
-    },
-    setError: (state, action: PayloadAction<{ error: string | null }>) => {
-      state.error = action.payload.error;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/pending");
+        },
+        (state, action) => {
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/rejected");
+        },
+        (state, { payload: { error } }) => {
+          state.isLoading = false;
+          const errorMessage = getErrorMessage(error);
+          notifications.show({
+            message: errorMessage,
+            color: "red",
+            sx: { backgroundColor: "red" },
+            loading: false,
+          });
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/fulfilled");
+        },
+        (state, action) => {
+          state.isLoading = false;
+        }
+      );
   },
 });
 
 export const appReducer = slice.reducer;
-export const { setIsLoading, setError } = slice.actions;
+export const {} = slice.actions;

@@ -1,14 +1,18 @@
+import { EditableAvatar } from "@/common/components/editableAvatar/Avatar.tsx";
 import { EditableSpan } from "@/common/EditableSpan.tsx";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
-import { selectTokenDeathTime } from "@/features/auth/auth.selectors.ts";
+import {
+  selectEmail,
+  selectTokenDeathTime,
+} from "@/features/auth/auth.selectors.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
-import { Avatar, Button, Paper } from "@mantine/core";
+import { Button, Paper } from "@mantine/core";
 import React from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import s from "./Profile.module.scss";
 
 export const Profile = () => {
-  const email = useAppSelector((state) => state.auth.profile?.email);
+  const email = useAppSelector(selectEmail);
   const tokenDeathTime = useAppSelector(selectTokenDeathTime);
   const dispatch = useAppDispatch();
 
@@ -27,7 +31,7 @@ export const Profile = () => {
       </NavLink>
       <Paper className={s.paper} shadow="xs" radius="xs" p="sm">
         <div className={s.title}>Personal Information</div>
-        <Avatar src="avatar.png" alt="it's me" radius={"md"} />
+        <EditableAvatar />
         <EditableSpan />
         <div>{email}</div>
         <Button onClick={signOut} className={s.submitButton}>

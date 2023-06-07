@@ -1,4 +1,3 @@
-import { globalRouter } from "@/common/utils/globalRouter.ts";
 import axios from "axios";
 
 export const instance = axios.create({
@@ -21,7 +20,6 @@ instance.interceptors.response.use(
     // if (error.response.status === 401 && globalRouter.navigate) {
     //   globalRouter.navigate("/signin");
     // }
-    // console.log("from interceptor", error);
 
     return Promise.reject(error);
   }

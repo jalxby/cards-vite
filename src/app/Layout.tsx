@@ -1,26 +1,17 @@
-import { GlobalError } from "@/common/GlobalError.tsx";
-import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import { selectIsLoading } from "@/app/app.selectors.ts";
+import { useAppSelector } from "@/common/hooks/hooks.ts";
 import { routes } from "@/common/routes.tsx";
 import { globalRouter } from "@/common/utils/globalRouter.ts";
-import { selectTokenDeathTime } from "@/features/auth/auth.selectors.ts";
-import { authThunks } from "@/features/auth/auth.slice.ts";
 import { HeaderContainer } from "@/features/Header/HeaderContainer.tsx";
-import { AppShell, Header } from "@mantine/core";
-import { useEffect } from "react";
+import { AppShell, Header, Loader } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Layout = () => {
   globalRouter.navigate = useNavigate();
-  const tokenDeathTime = useAppSelector(selectTokenDeathTime);
-  const dispatch = useAppDispatch();
-  console.log("some key", import.meta.env.VITE_PROD_URL);
-
-  useEffect(() => {
-    if (!tokenDeathTime || tokenDeathTime < Number(new Date())) {
-      dispatch(authThunks.me());
-    }
-  }, [dispatch, tokenDeathTime]);
+  const isLoading = useAppSelector(selectIsLoading);
 
   return (
     <div>
@@ -40,14 +31,39 @@ export const Layout = () => {
           },
         })}
       >
-        <a href="">link</a>
-        <NavLink to={"/createnewpass/asd"}>link</NavLink>
-        <Routes>
+        {isLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginTop: "10%",
+            }}
+          >
+            <Loader size="xl" variant="bars" />
+          </div>
+        ) : (
+          <Routes>
+            {routes.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.element}
+              />
+            ))}
+          </Routes>
+        )}
+
+        <Notifications />
+        <div>
           {routes.map((route) => (
-            <Route key={route.path} path={route.path} element={route.element} />
+            <NavLink
+              to={"http://localhost:5173/" + route.path.slice(2)}
+              key={route.path}
+            >
+              {route.path.slice(1)} |{" "}
+            </NavLink>
           ))}
-        </Routes>
-        <GlobalError />
+        </div>
       </AppShell>
     </div>
   );

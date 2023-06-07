@@ -1,3 +1,4 @@
+import { emailContent } from "@/common/emailContent.ts";
 import { useAppDispatch } from "@/common/hooks/hooks.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import s from "@/features/auth/Sign-up/Signup.module.scss";
@@ -20,14 +21,8 @@ export const ForgotPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ resolver: yupResolver(schema) });
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const { email } = data;
-    const message = `<div style="background-color: lime; padding: 15px">password recovery link:<a href=${
-      import.meta.env.DEV
-        ? import.meta.env.VITE_DEV_URL
-        : import.meta.env.VITE_PROD_URL
-    }/$token$">link</a></div>`;
-    await dispatch(authThunks.newPassRequest({ email, message }));
+  const onSubmit: SubmitHandler<FormData> = async ({ email }) => {
+    await dispatch(authThunks.newPassRequest({ email, message: emailContent }));
     redirect("/checkEmail");
   };
 

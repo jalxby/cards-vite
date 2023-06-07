@@ -1,10 +1,11 @@
 import { useAppDispatch } from "@/common/hooks/hooks";
+import { globalRouter } from "@/common/utils/globalRouter.ts";
 import { authThunks } from "@/features/auth/auth.slice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, Paper, PasswordInput } from "@mantine/core";
 import { IconEyeCheck, IconEyeOff } from "@tabler/icons-react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { ref } from "yup";
 import s from "./Signup.module.scss";
@@ -20,6 +21,7 @@ const schema = yup.object({
 type FormData = yup.InferType<typeof schema>;
 export const SignUp = () => {
   const dispatch = useAppDispatch();
+  globalRouter.navigate = useNavigate();
 
   const {
     register,
@@ -58,7 +60,7 @@ export const SignUp = () => {
             Forgot Password?
           </NavLink>
           <Button className={s.submitButton} type={"submit"}>
-            Sign in
+            Sign Up
           </Button>
         </form>
         <p>Already have an account?</p>
