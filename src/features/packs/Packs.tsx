@@ -1,9 +1,11 @@
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { FilterLogo } from "@/assets/FilterLogo.tsx";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import { selectMyUserId } from "@/features/auth/auth.selectors.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import {
   selectPageCount,
+  selectQueryParams,
   selectTotalPacks,
 } from "@/features/packs/packs.selectors.ts";
 import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
@@ -19,56 +21,67 @@ import {
   Select,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDebounce } from "usehooks-ts";
 
 const Packs = () => {
-  const [activePage, setPage] = useState<number>(1);
-  const [value, setValue] = useState<string | null>("5");
+  const [activePage, setActivePage] = useState<number>(1);
+  const [packsPerPage, setPacksPerPage] = useState<string | null>("5");
   const [rangeValue, setRangeValue] = useState<[number, number]>([0, 100]);
   const [search, setSearch] = useState<string>("");
+  const [myPacks, setMyPacks] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(selectIsLoading);
   const totalPacks = useAppSelector(selectTotalPacks);
   const pageCount = useAppSelector(selectPageCount);
+  const queryParams = useAppSelector(selectQueryParams);
+  const myUserId = useAppSelector(selectMyUserId);
   const totalPages = Math.ceil(totalPacks / pageCount);
 
-  debounce(() => {
+  const clearAllFilters = () => {
+    dispatch(packsActions.clearQueryParams());
+  };
+
+  const toggleMyPacks = () => {
+    setMyPacks(!myPacks);
     dispatch(
       packsActions.setQueryParams({
-        params: {
-          pageCount: Number(value),
-          packName: search,
-          page: activePage,
-          min: rangeValue[0],
-          max: rangeValue[1],
-        },
+        params: { user_id: myPacks ? myUserId : "" },
       })
     );
-  }, 800);
-  const debouncedValue = useDebounce(
-    () => {},
+  };
+  const setPage = (e: number) => {
+    setActivePage(e);
+    dispatch(packsActions.setQueryParams({ params: { page: e } }));
+  };
 
-    500
-  );
+  const setPackCount = (e: string) => {
+    setPacksPerPage(e);
+    dispatch(packsActions.setQueryParams({ params: { pageCount: +e } }));
+  };
 
   useEffect(() => {
-    dispatch(
-      packsActions.setQueryParams({
-        params: {
-          pageCount: Number(value),
-          packName: search,
-          page: activePage,
-          min: rangeValue[0],
-          max: rangeValue[1],
-        },
-      })
-    );
+    const timeoutId = setTimeout(() => {
+      dispatch(
+        packsActions.setQueryParams({
+          params: {
+            packName: search,
+            min: rangeValue[0],
+            max: rangeValue[1],
+          },
+        })
+      );
+    }, 800);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [search, rangeValue]);
+
+  useEffect(() => {
     dispatch(packsThunks.getPacks());
-  }, [debouncedValue]);
+  }, [dispatch, queryParams]);
 
   useEffect(() => {
     dispatch(authThunks.me())
@@ -101,8 +114,18 @@ const Packs = () => {
         </Input.Wrapper>
         <Input.Wrapper label="Show packs cards">
           <Button.Group>
-            <Button variant="outline">My</Button>
-            <Button variant="filled">All</Button>
+            <Button
+              onClick={toggleMyPacks}
+              variant={myPacks ? "outline" : "filled"}
+            >
+              My
+            </Button>
+            <Button
+              onClick={toggleMyPacks}
+              variant={myPacks ? "filled" : "outline"}
+            >
+              All
+            </Button>
           </Button.Group>
         </Input.Wrapper>
 
@@ -143,6 +166,7 @@ const Packs = () => {
           </div>
         </Input.Wrapper>
         <Paper
+          onClick={clearAllFilters}
           shadow="xs"
           radius="xs"
           style={{
@@ -161,12 +185,16 @@ const Packs = () => {
         {!isLoading && <PacksTable />}
       </Paper>
       <div style={{ display: "flex" }}>
-        <Pagination value={activePage} onChange={setPage} total={totalPages} />{" "}
+        <Pagination
+          value={activePage}
+          onChange={(e) => setPage(e)}
+          total={totalPages}
+        />{" "}
         {" Show "}
         <Select
           sx={{ width: "70px" }}
-          value={value}
-          onChange={setValue}
+          value={packsPerPage}
+          onChange={(e: string) => setPackCount(e)}
           data={["5", "10", "15", "20"]}
         />
         Cards per Page

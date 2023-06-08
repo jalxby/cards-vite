@@ -21,7 +21,10 @@ const slice = createSlice({
       state,
       action: PayloadAction<{ params: PacksQueryParamsType }>
     ) => {
-      state.queryParams = action.payload.params;
+      state.queryParams = { ...state.queryParams, ...action.payload.params };
+    },
+    clearQueryParams: (state) => {
+      state.queryParams = {};
     },
   },
   extraReducers: (builder) => {
@@ -35,8 +38,16 @@ const getPacks = createAppAsyncThunk<{ data: any }>(
   "packs/getPacks",
   (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const { packName, sortPacks, page, pageCount, max, min, user_id, block } =
-        thunkAPI.getState().packs.queryParams;
+      const {
+        packName,
+        sortPacks,
+        page,
+        pageCount = 5,
+        max,
+        min,
+        user_id,
+        block,
+      } = thunkAPI.getState().packs.queryParams;
       const res = await packsApi.getPacks({
         packName,
         sortPacks,
