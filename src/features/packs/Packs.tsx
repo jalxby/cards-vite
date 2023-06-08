@@ -21,10 +21,10 @@ import {
   Select,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Packs = () => {
+const Packs = React.memo(() => {
   const [activePage, setActivePage] = useState<number>(1);
   const [packsPerPage, setPacksPerPage] = useState<string | null>("5");
   const [rangeValue, setRangeValue] = useState<[number, number]>([0, 100]);
@@ -41,13 +41,18 @@ const Packs = () => {
 
   const clearAllFilters = () => {
     dispatch(packsActions.clearQueryParams());
+    setActivePage(1);
+    setPacksPerPage("5");
+    setRangeValue([0, 100]);
+    setSearch("");
+    setMyPacks(false);
   };
 
-  const toggleMyPacks = () => {
-    setMyPacks(!myPacks);
+  const toggleMyPacks = (isMy: boolean) => {
+    setMyPacks(isMy);
     dispatch(
       packsActions.setQueryParams({
-        params: { user_id: myPacks ? myUserId : "" },
+        params: { user_id: isMy ? myUserId : "" },
       })
     );
   };
@@ -115,14 +120,14 @@ const Packs = () => {
         <Input.Wrapper label="Show packs cards">
           <Button.Group>
             <Button
-              onClick={toggleMyPacks}
-              variant={myPacks ? "outline" : "filled"}
+              onClick={() => toggleMyPacks(true)}
+              variant={myPacks ? "filled" : "outline"}
             >
               My
             </Button>
             <Button
-              onClick={toggleMyPacks}
-              variant={myPacks ? "filled" : "outline"}
+              onClick={() => toggleMyPacks(false)}
+              variant={!myPacks ? "filled" : "outline"}
             >
               All
             </Button>
@@ -201,6 +206,6 @@ const Packs = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Packs;
