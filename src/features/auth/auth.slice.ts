@@ -44,7 +44,6 @@ const signUp = createAppAsyncThunk<void, SignUpPayloadType>(
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       await authApi.signUp(arg);
-      globalRouter.navigate && globalRouter.navigate("/signin");
     });
   }
 );

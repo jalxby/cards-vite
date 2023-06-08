@@ -1,5 +1,4 @@
 import { useAppDispatch } from "@/common/hooks/hooks";
-import { globalRouter } from "@/common/utils/globalRouter.ts";
 import { authThunks } from "@/features/auth/auth.slice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, Paper, PasswordInput } from "@mantine/core";
@@ -21,7 +20,7 @@ const schema = yup.object({
 type FormData = yup.InferType<typeof schema>;
 export const SignUp = () => {
   const dispatch = useAppDispatch();
-  globalRouter.navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -31,7 +30,11 @@ export const SignUp = () => {
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const { email, password } = data;
-    dispatch(authThunks.signUp({ email, password }));
+    dispatch(authThunks.signUp({ email, password }))
+      .unwrap()
+      .then(() => {
+        navigate("/signin");
+      });
   };
 
   return (

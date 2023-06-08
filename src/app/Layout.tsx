@@ -1,6 +1,5 @@
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
-import { authThunks } from "@/features/auth/auth.slice.ts";
 import { HeaderContainer } from "@/features/Header/HeaderContainer.tsx";
 import { AppShell, Header, Loader } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
@@ -9,15 +8,10 @@ import { Outlet, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Layout = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isLoading = useAppSelector(selectIsLoading);
   useEffect(() => {
-    dispatch(authThunks.me())
-      .unwrap()
-      .catch(() => {
-        navigate("/signin");
-      });
+    navigate("/packs");
   }, []);
   return (
     <div>

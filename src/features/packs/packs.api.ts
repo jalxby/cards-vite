@@ -14,12 +14,12 @@ export const packsApi = {
     return instance.put("cards/pack", params);
   },
 };
-type PacksQueryParamsType = {
+export type PacksQueryParamsType = {
   packName?: string;
   min?: number;
   max?: number;
   sortPacks?: string;
-  page?: string;
+  page?: number;
   pageCount?: number;
   user_id?: string;
   block?: string;

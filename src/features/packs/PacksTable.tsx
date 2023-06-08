@@ -1,10 +1,12 @@
 import { useAppSelector } from "@/common/hooks/hooks.ts";
+import { formatDate } from "@/common/utils/formatDate.ts";
 import { AllowedActs } from "@/features/packs/AllowedActs.tsx";
 import { Table } from "@mantine/core";
 import React from "react";
 
 export const PacksTable = React.memo(() => {
-  const packs = useAppSelector((state) => state.packs.cardPacks);
+  const packs = useAppSelector((state) => state.packs.cardsData.cardPacks);
+
   return (
     <Table withBorder>
       <thead>
@@ -18,13 +20,12 @@ export const PacksTable = React.memo(() => {
       </thead>
       <tbody>
         {packs.map((element) => {
-          const unixDate = element.updated;
-          //const date = `${unixDate.getDate()}.${unixDate.getMonth()}.${unixDate.getFullYear()}`;
+          const date = formatDate(new Date(element.updated));
           return (
             <tr key={element._id}>
               <td>{element.name}</td>
               <td>{element.cardsCount}</td>
-              <td>{"date"}</td>
+              <td>{date}</td>
               <td>{element.user_name}</td>
               <td>{<AllowedActs />}</td>
             </tr>
