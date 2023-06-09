@@ -3,6 +3,8 @@ import { FilterLogo } from "@/assets/FilterLogo.tsx";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectMyUserId } from "@/features/auth/auth.selectors.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
+import { AddNewPack } from "@/features/modals/AddNewPack.tsx";
+import { BasicModal } from "@/features/modals/BasicModal.tsx";
 import {
   selectPageCount,
   selectQueryParams,
@@ -12,14 +14,18 @@ import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
 import { PacksTable } from "@/features/packs/PacksTable.tsx";
 import {
   Button,
+  Checkbox,
   Input,
+  Modal,
   NumberInput,
   Pagination,
   Paper,
   RangeSlider,
   rem,
   Select,
+  useMantineTheme,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -98,9 +104,17 @@ const Packs = React.memo(() => {
 
   return (
     <div>
-      <div style={{ display: "flex" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <h3>Packs List</h3>
-        <Button>Add new pack</Button>
+        <BasicModal buttonTitle={"Add new pack"} title={"Add new pack"}>
+          <AddNewPack />
+        </BasicModal>
       </div>
       <div
         style={{
