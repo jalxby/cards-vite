@@ -9,3 +9,7 @@ export const selectPacks = (state: RootState) =>
   state.packs.cardsData.cardPacks;
 export const selectSort = (state: RootState) =>
   state.packs.queryParams.sortPacks;
+export const selectPackTitle = (state: RootState) => (id: string) =>
+  state.packs.cardsData.cardPacks.filter((pack) => pack._id === id)[0].name;
+export const selectIsPrivate = (state: RootState) => (id: string) =>
+  state.packs.cardsData.cardPacks.filter((pack) => pack._id === id)[0].private;

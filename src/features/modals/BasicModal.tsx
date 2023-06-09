@@ -5,10 +5,16 @@ import React, { FC, ReactNode } from "react";
 
 type PropsType = {
   children?: ReactNode;
+  childrenButtonIcon?: ReactNode;
   title?: string;
   buttonTitle?: string;
 };
-export const BasicModal: FC<PropsType> = ({ children, title, buttonTitle }) => {
+export const BasicModal: FC<PropsType> = ({
+  children,
+  title,
+  buttonTitle,
+  childrenButtonIcon,
+}) => {
   const [opened, { open, close }] = useDisclosure(false);
   const theme = useMantineTheme();
 
@@ -30,27 +36,14 @@ export const BasicModal: FC<PropsType> = ({ children, title, buttonTitle }) => {
       >
         <hr style={{ width: "100%", padding: 0, margin: 0 }} />
         {children}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            onClick={close}
-            color={"white"}
-            variant="outline"
-            sx={{ borderRadius: "30px" }}
-          >
-            Cancel
-          </Button>
-          <Button sx={{ borderRadius: "30px" }}>Save</Button>
-        </div>
       </Modal>
-      <Button sx={{ borderRadius: "30px" }} onClick={open}>
-        {buttonTitle}
-      </Button>
+      {childrenButtonIcon ? (
+        <span onClick={open}>{childrenButtonIcon}</span>
+      ) : (
+        <Button sx={{ borderRadius: "30px" }} onClick={open}>
+          {buttonTitle}
+        </Button>
+      )}
     </>
   );
 };

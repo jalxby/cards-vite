@@ -1,22 +1,33 @@
-import { useAppDispatch } from "@/common/hooks/hooks.ts";
+import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import {
+  selectIsPrivate,
+  selectPackTitle,
+} from "@/features/packs/packs.selectors.ts";
 import { packsThunks } from "@/features/packs/packs.slice.ts";
 import { Button, Checkbox, Input } from "@mantine/core";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 
-export const AddNewPack = () => {
-  const [input, setInput] = useState<string>("");
-  const [prvt, setPrvt] = useState<boolean>(false);
+type PropsType = {
+  pack_id: string;
+};
+export const UpdatePack: FC<PropsType> = ({ pack_id }) => {
   const dispatch = useAppDispatch();
+  const cardTitle = useAppSelector(selectPackTitle);
+  const isPrivate = useAppSelector(selectIsPrivate);
+  const [input, setInput] = useState<string>(cardTitle(pack_id));
+  const [prvt, setPrvt] = useState<boolean>(isPrivate(pack_id));
+
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.currentTarget.value);
   };
   const togglePrvt = (e: ChangeEvent<HTMLInputElement>) => {
     setPrvt(e.currentTarget.checked);
   };
-  const addNewPack = () => {
+  const updatePack = () => {
     dispatch(packsThunks.createPack({ name: input, private: prvt }));
     close();
   };
+
   return (
     <div
       style={{
@@ -46,7 +57,7 @@ export const AddNewPack = () => {
         >
           Cancel
         </Button>
-        <Button onClick={addNewPack} sx={{ borderRadius: "30px" }}>
+        <Button onClick={updatePack} sx={{ borderRadius: "30px" }}>
           Save
         </Button>
       </div>

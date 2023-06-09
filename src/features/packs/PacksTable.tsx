@@ -90,12 +90,19 @@ export const PacksTable = React.memo(() => {
                 <td>{element.cardsCount}</td>
                 <td>{date}</td>
                 <td>{element.user_name}</td>
-                <td>{<AllowedActs user_id={element.user_id} />}</td>
+                <td>
+                  {
+                    <AllowedActs
+                      user_id={element.user_id}
+                      pack_id={element._id}
+                    />
+                  }
+                </td>
               </tr>
             );
           })
         ) : (
-          <div>{"NO PACKS FOUND"}</div>
+          <>{"NO PACKS FOUND"}</>
         )}
       </tbody>
     </Table>

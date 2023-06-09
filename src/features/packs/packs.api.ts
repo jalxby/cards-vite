@@ -5,10 +5,10 @@ export const packsApi = {
     return instance.get<GetPacksResponseType>("cards/pack", { params: params });
   },
   createPack(params: NewPackQueryParamsType) {
-    return instance.post("cards/pack");
+    return instance.post<NewPackResponse>("cards/pack", { cardsPack: params });
   },
-  deletePack(id: string) {
-    return instance.delete("cards/pack");
+  deletePack(pack_id: string) {
+    return instance.delete<DeleteResponseType>(`cards/pack?id=${pack_id}`);
   },
   updatePack(params: { id: string; newTitle: string }) {
     return instance.put("cards/pack", params);
@@ -25,7 +25,7 @@ export type PacksQueryParamsType = {
   block?: string;
 };
 
-type NewPackQueryParamsType = {
+export type NewPackQueryParamsType = {
   name?: string;
   deckCover?: URL;
   private?: boolean;
@@ -50,7 +50,7 @@ export type PackType = {
   path: string;
   grade: number;
   shots: number;
-  deckCover: string;
+  deckCover?: string;
   cardsCount: number;
   type: string;
   rating: number;
@@ -58,4 +58,15 @@ export type PackType = {
   updated: Date;
   more_id: string;
   __v: number;
+};
+
+export type NewPackResponse = {
+  newCardsPack: PackType;
+  token: string;
+  tokenDeathTime: number;
+};
+export type DeleteResponseType = {
+  deletedCardsPack: PackType;
+  token: string;
+  tokenDeathTime: number;
 };
