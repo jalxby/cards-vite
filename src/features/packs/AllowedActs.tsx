@@ -1,13 +1,11 @@
 import { DeleteLogo } from "@/assets/DeleteLogo.tsx";
 import { EditLogo } from "@/assets/EditLogo.tsx";
 import { TeacherLogo } from "@/assets/TeacherLogo.tsx";
-import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
-import { selectMyUserId, selectName } from "@/features/auth/auth.selectors.ts";
+import { useAppSelector } from "@/common/hooks/hooks.ts";
+import { selectMyUserId } from "@/features/auth/auth.selectors.ts";
 import { BasicModal } from "@/features/modals/BasicModal.tsx";
 import { DeletePack } from "@/features/modals/DeletePack.tsx";
 import { UpdatePack } from "@/features/modals/UpdatePack.tsx";
-import { selectCardTitle } from "@/features/packs/packs.selectors.ts";
-import { packsThunks } from "@/features/packs/packs.slice.ts";
 import React, { FC } from "react";
 
 type PropsType = {
