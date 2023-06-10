@@ -49,12 +49,7 @@ export const UpdatePack: FC<PropsType> = ({ pack_id }) => {
           alignItems: "center",
         }}
       >
-        <Button
-          onClick={close}
-          color={"white"}
-          variant="outline"
-          sx={{ borderRadius: "30px" }}
-        >
+        <Button color={"white"} variant="outline" sx={{ borderRadius: "30px" }}>
           Cancel
         </Button>
         <Button onClick={updatePack} sx={{ borderRadius: "30px" }}>

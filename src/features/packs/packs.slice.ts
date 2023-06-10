@@ -9,6 +9,7 @@ import {
   PackType,
 } from "@/features/packs/packs.api.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { authThunks } from "@/features/auth/auth.slice.ts";
 
 const slice = createSlice({
   name: "packs",
@@ -30,13 +31,9 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(getPacks.fulfilled, (state, action) => {
-        state.cardsData = action.payload.data;
-      })
-      .addCase(createPack.fulfilled, (state, action) => {
-        state.cardsData.cardPacks.unshift(action.payload.data.newCardsPack);
-      });
+    builder.addCase(packsThunks.getPacks.fulfilled, (state, action) => {
+      state.cardsData = action.payload.data;
+    });
   },
 });
 
@@ -45,8 +42,8 @@ const createPack = createAppAsyncThunk<
   NewPackQueryParamsType
 >("packs/createPack", (arg, thunkAPI) => {
   return thunkTryCatch(thunkAPI, async () => {
-    const res = await packsApi.createPack(arg);
-    return { data: res.data };
+    await packsApi.createPack(arg);
+    thunkAPI.dispatch(getPacks());
   });
 });
 
