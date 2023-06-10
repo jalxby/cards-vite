@@ -14,7 +14,7 @@ export const HeaderContainer = () => {
   };
 
   return (
-    <div className={s.headerContainer} style={{}}>
+    <div className={s.headerContainer}>
       <HeaderLogo />
       {name ? (
         <>

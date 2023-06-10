@@ -3,10 +3,10 @@ import { EditLogo } from "@/assets/EditLogo.tsx";
 import { TeacherLogo } from "@/assets/TeacherLogo.tsx";
 import { useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectMyUserId } from "@/features/auth/auth.selectors.ts";
-import { BasicModal } from "@/features/modals/BasicModal.tsx";
 import { DeletePack } from "@/features/modals/DeletePack.tsx";
 import { UpdatePack } from "@/features/modals/UpdatePack.tsx";
 import React, { FC } from "react";
+import BasicModal from "@/features/modals/BasicModal.tsx";
 
 type PropsType = {
   user_id: string;

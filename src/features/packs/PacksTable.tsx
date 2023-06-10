@@ -5,10 +5,12 @@ import { formatDate } from "@/common/utils/formatDate.ts";
 import { useSortColumn } from "@/common/utils/useSortColumn.tsx";
 import { AllowedActs } from "@/features/packs/AllowedActs.tsx";
 import { selectPacks } from "@/features/packs/packs.selectors.ts";
-import { Table } from "@mantine/core";
+import { Skeleton, Table } from "@mantine/core";
 import React, { useState } from "react";
 
 export const PacksTable = React.memo(() => {
+  console.log("Table rendering");
+
   const packs = useAppSelector(selectPacks);
   const [dirName, setDirName] = useSortColumn("name");
   const [dirUpdated, setDirUpdated] = useSortColumn("updated");
@@ -19,7 +21,7 @@ export const PacksTable = React.memo(() => {
   );
   return (
     <Table withBorder>
-      <thead>
+      <thead style={{ height: "48px", backgroundColor: "#EFEFEF" }}>
         <tr>
           <th>
             <span
@@ -85,8 +87,15 @@ export const PacksTable = React.memo(() => {
           packs.map((element) => {
             const date = formatDate(new Date(element.updated));
             return (
-              <tr key={element._id}>
-                <td>{element.name}</td>
+              <tr
+                style={{ height: "48px", backgroundColor: "#FFFFFF" }}
+                key={element._id}
+              >
+                <td>
+                  <Skeleton animate={false} height={48} radius="xl">
+                    {element.name}
+                  </Skeleton>
+                </td>
                 <td>{element.cardsCount}</td>
                 <td>{date}</td>
                 <td>{element.user_name}</td>

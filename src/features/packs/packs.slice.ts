@@ -8,8 +8,7 @@ import {
   PacksQueryParamsType,
   PackType,
 } from "@/features/packs/packs.api.ts";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { authThunks } from "@/features/auth/auth.slice.ts";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   name: "packs",
@@ -31,11 +30,13 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(packsThunks.getPacks.fulfilled, (state, action) => {
+    builder.addCase(getPacks.fulfilled, (state, action) => {
       state.cardsData = action.payload.data;
     });
   },
 });
+
+const testThunk = createAsyncThunk("packs/testThunk", (arg, thunkAPI) => {});
 
 const createPack = createAppAsyncThunk<
   { data: NewPackResponse },
@@ -86,5 +87,5 @@ const getPacks = createAppAsyncThunk<{ data: GetPacksResponseType }>(
   }
 );
 export const packsReducer = slice.reducer;
-export const packsThunks = { getPacks, createPack, deletePack };
+export const packsThunks = { testThunk, getPacks, createPack, deletePack };
 export const packsActions = slice.actions;

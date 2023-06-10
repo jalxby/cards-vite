@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { App } from "./app/App.tsx";
 import { store } from "./app/store.ts";
 import "./index.css";
+import BasicTable from "@/features/packs/TableMUI.tsx";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectMyUserId } from "@/features/auth/auth.selectors.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import { AddNewPack } from "@/features/modals/AddNewPack.tsx";
-import { BasicModal } from "@/features/modals/BasicModal.tsx";
 import {
   selectPageCount,
   selectQueryParams,
@@ -27,10 +26,13 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BasicTable from "@/features/packs/TableMUI.tsx";
+import BasicModal from "@/features/modals/BasicModal.tsx";
 
-const Packs = React.memo(() => {
+const Packs = () => {
+  console.log("packs rendering");
   const [activePage, setActivePage] = useState<number>(1);
   const [packsPerPage, setPacksPerPage] = useState<string | null>("5");
   const [rangeValue, setRangeValue] = useState<[number, number]>([0, 100]);
@@ -45,32 +47,30 @@ const Packs = React.memo(() => {
   const myUserId = useAppSelector(selectMyUserId);
   const totalPages = Math.ceil(totalPacks / pageCount);
 
-  const clearAllFilters = () => {
+  const clearAllFilters = useCallback(() => {
     dispatch(packsActions.clearQueryParams());
     setActivePage(1);
     setPacksPerPage("5");
     setRangeValue([0, 100]);
     setSearch("");
     setMyPacks(false);
-  };
-
-  const toggleMyPacks = (isMy: boolean) => {
+  }, []);
+  const toggleMyPacks = useCallback((isMy: boolean) => {
     setMyPacks(isMy);
     dispatch(
       packsActions.setQueryParams({
         params: { user_id: isMy ? myUserId : "" },
       })
     );
-  };
-  const setPage = (e: number) => {
+  }, []);
+  const setPage = useCallback((e: number) => {
     setActivePage(e);
     dispatch(packsActions.setQueryParams({ params: { page: e } }));
-  };
-
-  const setPackCount = (e: string) => {
+  }, []);
+  const setPackCount = useCallback((e: string) => {
     setPacksPerPage(e);
     dispatch(packsActions.setQueryParams({ params: { pageCount: +e } }));
-  };
+  }, []);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -200,9 +200,10 @@ const Packs = React.memo(() => {
           <FilterLogo />
         </Paper>
       </div>
-      <Paper mt={20} shadow="xs" radius="xs" p="sm">
-        {!isLoading && <PacksTable />}
-      </Paper>
+      {/*<Paper mt={20} shadow="xs" radius="xs" p="sm">*/}
+      {/*{!isLoading && <PacksTable />}*/}
+      {/*</Paper>*/}
+      <PacksTable />
       <div style={{ display: "flex" }}>
         <Pagination
           value={activePage}
@@ -220,6 +221,6 @@ const Packs = React.memo(() => {
       </div>
     </div>
   );
-});
+};
 
-export default Packs;
+export default React.memo(Packs);

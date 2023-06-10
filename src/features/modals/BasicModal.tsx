@@ -9,7 +9,7 @@ type PropsType = {
   title?: string;
   buttonTitle?: string;
 };
-export const BasicModal: FC<PropsType> = ({
+const BasicModal: FC<PropsType> = ({
   children,
   title,
   buttonTitle,
@@ -47,3 +47,4 @@ export const BasicModal: FC<PropsType> = ({
     </>
   );
 };
+export default React.memo(BasicModal);
