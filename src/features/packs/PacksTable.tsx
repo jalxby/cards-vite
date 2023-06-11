@@ -35,13 +35,13 @@ export const PacksTable = React.memo(() => {
           <th style={{ width: "250px" }}>
             <ColumnHeader title={Column.NAME} />
           </th>
-          <th>
+          <th style={{ width: "250px" }}>
             <ColumnHeader title={Column.CARDS} />
           </th>
-          <th>
+          <th style={{ width: "250px" }}>
             <ColumnHeader title={Column.LAST_UPDATED} />
           </th>
-          <th>
+          <th style={{ width: "250px" }}>
             <ColumnHeader title={Column.CREATED_BY} />
           </th>
           <th>{Column.ACTIONS}</th>
