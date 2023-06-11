@@ -40,9 +40,7 @@ const BasicModal: FC<PropsType> = ({
       {childrenButtonIcon ? (
         <span onClick={open}>{childrenButtonIcon}</span>
       ) : (
-        <Button color={"custom"} sx={{ borderRadius: "30px" }} onClick={open}>
-          {buttonTitle}
-        </Button>
+        <Button onClick={open}>{buttonTitle}</Button>
       )}
     </>
   );

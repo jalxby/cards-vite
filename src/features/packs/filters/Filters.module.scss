@@ -1,0 +1,35 @@
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  .buttonGroup Button {
+    border-radius: 2px;
+  }
+
+  .slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+
+    .numberInput input {
+      width: 3.5rem;
+      text-align: center
+    }
+
+    .rangeSlider {
+      width: 100%;
+      margin: 0;
+    }
+  }
+
+  .clearFilters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 36px;
+    width: 36px;
+  }
+}
