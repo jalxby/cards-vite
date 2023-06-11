@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import s from "@/features/packs/PacksTable.module.scss";
+import s from "@/features/packs/ColumnHeader.module.scss";
 import { useSortColumn } from "@/common/utils/useSortColumn.ts";
 import { CurrentSorted } from "@/features/packs/PacksTable.tsx";
 
@@ -24,7 +24,7 @@ export const ColumnHeader: FC<PropsType> = ({ title }) => {
 
   return (
     <span
-      style={{ display: "flex", alignItems: "center", gap: 3 }}
+      className={s.span}
       onClick={() => setSort(CurrentSorted[title])}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
