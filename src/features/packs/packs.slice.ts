@@ -13,7 +13,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 const slice = createSlice({
   name: "packs",
   initialState: {
-    queryParams: { sortPacks: "" } as PacksQueryParamsType,
+    queryParams: {} as PacksQueryParamsType,
     cardsData: {
       cardPacks: [] as PackType[],
     } as GetPacksResponseType,

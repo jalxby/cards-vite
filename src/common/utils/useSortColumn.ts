@@ -1,34 +1,35 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectSort } from "@/features/packs/packs.selectors.ts";
 import { packsActions } from "@/features/packs/packs.slice.ts";
+import { useState } from "react";
 
-/**
- * Custom hook to handle sorting column in the component.
- * @param {string} colName - The name of the column to be sorted as default.
- * @returns {Array} - [sorted column name, sort direction, function to update the sort direction]
- */
-export const useSortColumn = (
-  colName: string
-): [string, number | null, (column: string) => void] => {
+type SortDirection = 0 | 1 | "";
+
+export const useSortColumn = (): [
+  string,
+  SortDirection,
+  (column: string) => void
+] => {
   const getSort = useAppSelector<string | undefined>(selectSort);
+  const [sortedColumn, setSortedColumn] = useState<string>("");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("");
   const dispatch = useAppDispatch();
-  const sortDirection = getSort ? +getSort[0] : 2;
-  /**
-   * Function to update the sort direction based on the specified column.
-   * @param {string} column - The name of the column to update the sort direction.
-   */
-  const updateSortDirection = (column: string = colName) => {
-    let sortPacks: string | undefined;
-    if (!getSort) {
-      sortPacks = `0${column.toLowerCase()}`;
-    } else if (getSort[0] === "0") {
-      sortPacks = `1${column.toLowerCase()}`;
-    } else if (getSort[0] === "1") {
+
+  const updateSortDirection = (column: string) => {
+    setSortedColumn(column);
+    const directionMap: Record<string, SortDirection> = {
+      "": 0,
+      "0": 1,
+      "1": "",
+    };
+    const newSortDirection = getSort ? directionMap[getSort[0]] : 0;
+    setSortDirection(newSortDirection);
+    let sortPacks = `${newSortDirection}${column}`;
+    if (newSortDirection === "") {
       sortPacks = "";
     }
-
     dispatch(packsActions.setQueryParams({ params: { sortPacks } }));
   };
 
-  return [colName, sortDirection, updateSortDirection];
+  return [sortedColumn, sortDirection, updateSortDirection];
 };

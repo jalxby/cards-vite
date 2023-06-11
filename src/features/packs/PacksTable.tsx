@@ -1,14 +1,13 @@
 import { useAppSelector } from "@/common/hooks/hooks.ts";
 import { formatDate } from "@/common/utils/formatDate.ts";
-import { useSortColumn } from "@/common/utils/useSortColumn.ts";
 import { AllowedActs } from "@/features/packs/AllowedActs.tsx";
 import { selectPacks } from "@/features/packs/packs.selectors.ts";
 import { Skeleton, Table } from "@mantine/core";
-import React, { useState } from "react";
+import React from "react";
 import { selectIsLoading } from "@/app/app.selectors.ts";
-import s from "./PacksTable.module.scss";
+import { ColumnHeader } from "@/features/packs/ColumnHeader.tsx";
 
-enum Column {
+export enum Column {
   NAME = "Name",
   CARDS = "Cards",
   LAST_UPDATED = "Last Updated",
@@ -16,100 +15,34 @@ enum Column {
   ACTIONS = "Actions",
 }
 
-enum SortDirection {
-  ASCENDING = 0,
-  DESCENDING = 1,
-  NEUTRAL = 2,
-}
+type ValuesToSort = "name" | "cardsCount" | "updated" | "user_name";
+
+export const CurrentSorted: Record<string, ValuesToSort> = {
+  Name: "name",
+  Cards: "cardsCount",
+  "Last Updated": "updated",
+  "Created By": "user_name",
+};
 
 export const PacksTable = React.memo(() => {
-  console.log("Table rendering");
   const packs = useAppSelector(selectPacks);
-  const [sortedColumn, sortDirection, setSort] = useSortColumn("name");
   const isLoading = useAppSelector(selectIsLoading);
-  const [hoveredColumnName, setHoveredColumnName] = useState<string | null>(
-    null
-  );
-  const isCurrentSorted = hoveredColumnName?.toLowerCase() === sortedColumn;
+
   return (
     <Table withBorder>
       <thead style={{ height: "48px", backgroundColor: "#EFEFEF" }}>
         <tr>
           <th style={{ width: "250px" }}>
-            <span
-              onClick={(e) => setSort(e.currentTarget.innerText)}
-              onMouseEnter={(e) => {
-                setHoveredColumnName(e.currentTarget.innerText);
-              }}
-              onMouseLeave={() => setHoveredColumnName(null)}
-            >
-              {Column.NAME}
-              {isCurrentSorted && (
-                <>
-                  {sortDirection === 0 && (
-                    <div className={` ${s.ascending}`}></div>
-                  )}
-                  {sortDirection === 1 && (
-                    <div className={`${s.descending} `}></div>
-                  )}
-                  {sortDirection === 2 && (
-                    <div className={`${s.descending} ${s.ascending}`}></div>
-                  )}
-                </>
-              )}
-            </span>
+            <ColumnHeader title={Column.NAME} />
           </th>
           <th>
-            <span
-              onClick={(e) => setSort(e.currentTarget.innerText)}
-              onMouseEnter={(e) => {
-                setHoveredColumnName(e.currentTarget.innerText);
-              }}
-              onMouseLeave={() => setHoveredColumnName(null)}
-            >
-              {Column.CARDS}
-              {isCurrentSorted && (
-                <>
-                  {sortDirection === 0 && (
-                    <div className={` ${s.ascending}`}></div>
-                  )}
-                  {sortDirection === 1 && (
-                    <div className={`${s.descending} `}></div>
-                  )}
-                  {sortDirection === 2 && (
-                    <div className={`${s.descending} ${s.ascending}`}></div>
-                  )}
-                </>
-              )}
-            </span>
+            <ColumnHeader title={Column.CARDS} />
           </th>
           <th>
-            <span
-              // onClick={sortDirUpdated}
-              onMouseEnter={() => setHoveredColumnName("Last Updated")}
-              onMouseLeave={() => setHoveredColumnName(null)}
-            >
-              {Column.LAST_UPDATED}
-              {/*{hoveredColumnName === Column.LAST_UPDATED && (*/}
-              {/*  <React.Fragment>*/}
-              {/*    {dirUpdated === 1 ? <SortAscIcon /> : <SortDescIcon />}*/}
-              {/*  </React.Fragment>*/}
-              {/*)}*/}
-            </span>
+            <ColumnHeader title={Column.LAST_UPDATED} />
           </th>
           <th>
-            <span
-              // onClick={sortDirUserName}
-              onMouseEnter={() => setHoveredColumnName("Created By")}
-              onMouseLeave={() => setHoveredColumnName(null)}
-            >
-              {Column.CREATED_BY}
-              {/*{hoveredColumnName === Column.CREATED_BY && (*/}
-              {/*  <React.Fragment>*/}
-              {/*    {dirUserName === 1 ? <SortAscIcon /> : <SortDescIcon />}*/}
-              {/*  </React.Fragment>*/}
-              {/*)}*/}
-            </span>
+            <ColumnHeader title={Column.CREATED_BY} />
           </th>
           <th>{Column.ACTIONS}</th>
         </tr>
