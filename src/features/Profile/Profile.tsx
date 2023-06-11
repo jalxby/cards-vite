@@ -16,6 +16,7 @@ export const Profile = () => {
   const tokenDeathTime = useAppSelector(selectTokenDeathTime);
   const dispatch = useAppDispatch();
 
+  // @TODO change signOut signature
   const signOut = () => {
     dispatch(authThunks.signOut());
   };
@@ -34,7 +35,7 @@ export const Profile = () => {
         <EditableAvatar />
         <EditableSpan />
         <div>{email}</div>
-        <Button onClick={signOut} className={s.submitButton}>
+        <Button color="custom" onClick={signOut} className={s.submitButton}>
           Sign out
         </Button>
       </Paper>

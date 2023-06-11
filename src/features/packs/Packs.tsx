@@ -13,22 +13,17 @@ import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
 import { PacksTable } from "@/features/packs/PacksTable.tsx";
 import {
   Button,
-  Checkbox,
   Input,
-  Modal,
   NumberInput,
   Pagination,
   Paper,
   RangeSlider,
   rem,
   Select,
-  useMantineTheme,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BasicTable from "@/features/packs/TableMUI.tsx";
 import BasicModal from "@/features/modals/BasicModal.tsx";
 
 const Packs = () => {
@@ -103,7 +98,7 @@ const Packs = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
       <div
         style={{
           display: "flex",
@@ -134,12 +129,16 @@ const Packs = () => {
         <Input.Wrapper label="Show packs cards">
           <Button.Group>
             <Button
+              disabled={isLoading}
+              sx={{ borderRadius: 2 }}
               onClick={() => toggleMyPacks(true)}
               variant={myPacks ? "filled" : "outline"}
             >
               My
             </Button>
             <Button
+              disabled={isLoading}
+              sx={{ borderRadius: 2 }}
               onClick={() => toggleMyPacks(false)}
               variant={!myPacks ? "filled" : "outline"}
             >

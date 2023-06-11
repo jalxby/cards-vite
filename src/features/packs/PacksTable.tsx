@@ -1,85 +1,117 @@
-import { SortAscIcon } from "@/assets/SortAscIcon.tsx";
-import { SortDescIcon } from "@/assets/SortDescIcon.tsx";
 import { useAppSelector } from "@/common/hooks/hooks.ts";
 import { formatDate } from "@/common/utils/formatDate.ts";
-import { useSortColumn } from "@/common/utils/useSortColumn.tsx";
+import { useSortColumn } from "@/common/utils/useSortColumn.ts";
 import { AllowedActs } from "@/features/packs/AllowedActs.tsx";
 import { selectPacks } from "@/features/packs/packs.selectors.ts";
 import { Skeleton, Table } from "@mantine/core";
 import React, { useState } from "react";
+import { selectIsLoading } from "@/app/app.selectors.ts";
+import s from "./PacksTable.module.scss";
+
+enum Column {
+  NAME = "Name",
+  CARDS = "Cards",
+  LAST_UPDATED = "Last Updated",
+  CREATED_BY = "Created By",
+  ACTIONS = "Actions",
+}
+
+enum SortDirection {
+  ASCENDING = 0,
+  DESCENDING = 1,
+  NEUTRAL = 2,
+}
 
 export const PacksTable = React.memo(() => {
   console.log("Table rendering");
-
   const packs = useAppSelector(selectPacks);
-  const [dirName, setDirName] = useSortColumn("name");
-  const [dirUpdated, setDirUpdated] = useSortColumn("updated");
-  const [dirCardsCount, setDirCardsCount] = useSortColumn("cardsCount");
-  const [dirUserName, setDirUserName] = useSortColumn("user_name");
+  const [sortedColumn, sortDirection, setSort] = useSortColumn("name");
+  const isLoading = useAppSelector(selectIsLoading);
   const [hoveredColumnName, setHoveredColumnName] = useState<string | null>(
     null
   );
+  const isCurrentSorted = hoveredColumnName?.toLowerCase() === sortedColumn;
   return (
     <Table withBorder>
       <thead style={{ height: "48px", backgroundColor: "#EFEFEF" }}>
         <tr>
-          <th>
+          <th style={{ width: "250px" }}>
             <span
-              onClick={setDirName}
-              onMouseEnter={() => setHoveredColumnName("Name")}
+              onClick={(e) => setSort(e.currentTarget.innerText)}
+              onMouseEnter={(e) => {
+                setHoveredColumnName(e.currentTarget.innerText);
+              }}
               onMouseLeave={() => setHoveredColumnName(null)}
             >
-              Name
-              {hoveredColumnName === "Name" && (
-                <React.Fragment>
-                  {dirName === 1 ? <SortAscIcon /> : <SortDescIcon />}
-                </React.Fragment>
+              {Column.NAME}
+              {isCurrentSorted && (
+                <>
+                  {sortDirection === 0 && (
+                    <div className={` ${s.ascending}`}></div>
+                  )}
+                  {sortDirection === 1 && (
+                    <div className={`${s.descending} `}></div>
+                  )}
+                  {sortDirection === 2 && (
+                    <div className={`${s.descending} ${s.ascending}`}></div>
+                  )}
+                </>
               )}
             </span>
           </th>
           <th>
             <span
-              onClick={setDirCardsCount}
-              onMouseEnter={() => setHoveredColumnName("Cards")}
+              onClick={(e) => setSort(e.currentTarget.innerText)}
+              onMouseEnter={(e) => {
+                setHoveredColumnName(e.currentTarget.innerText);
+              }}
               onMouseLeave={() => setHoveredColumnName(null)}
             >
-              Cards
-              {hoveredColumnName === "Cards" && (
-                <React.Fragment>
-                  {dirCardsCount === 1 ? <SortAscIcon /> : <SortDescIcon />}
-                </React.Fragment>
+              {Column.CARDS}
+              {isCurrentSorted && (
+                <>
+                  {sortDirection === 0 && (
+                    <div className={` ${s.ascending}`}></div>
+                  )}
+                  {sortDirection === 1 && (
+                    <div className={`${s.descending} `}></div>
+                  )}
+                  {sortDirection === 2 && (
+                    <div className={`${s.descending} ${s.ascending}`}></div>
+                  )}
+                </>
               )}
             </span>
           </th>
           <th>
             <span
-              onClick={setDirUpdated}
+              // onClick={sortDirUpdated}
               onMouseEnter={() => setHoveredColumnName("Last Updated")}
               onMouseLeave={() => setHoveredColumnName(null)}
             >
-              Last Updated
-              {hoveredColumnName === "Last Updated" && (
-                <React.Fragment>
-                  {dirUpdated === 1 ? <SortAscIcon /> : <SortDescIcon />}
-                </React.Fragment>
-              )}
+              {Column.LAST_UPDATED}
+              {/*{hoveredColumnName === Column.LAST_UPDATED && (*/}
+              {/*  <React.Fragment>*/}
+              {/*    {dirUpdated === 1 ? <SortAscIcon /> : <SortDescIcon />}*/}
+              {/*  </React.Fragment>*/}
+              {/*)}*/}
             </span>
           </th>
           <th>
             <span
-              onClick={setDirUserName}
+              // onClick={sortDirUserName}
               onMouseEnter={() => setHoveredColumnName("Created By")}
               onMouseLeave={() => setHoveredColumnName(null)}
             >
-              Created By
-              {hoveredColumnName === "Created By" && (
-                <React.Fragment>
-                  {dirUserName === 1 ? <SortAscIcon /> : <SortDescIcon />}
-                </React.Fragment>
-              )}
+              {Column.CREATED_BY}
+              {/*{hoveredColumnName === Column.CREATED_BY && (*/}
+              {/*  <React.Fragment>*/}
+              {/*    {dirUserName === 1 ? <SortAscIcon /> : <SortDescIcon />}*/}
+              {/*  </React.Fragment>*/}
+              {/*)}*/}
             </span>
           </th>
-          <th>Actions</th>
+          <th>{Column.ACTIONS}</th>
         </tr>
       </thead>
       <tbody>
@@ -88,17 +120,39 @@ export const PacksTable = React.memo(() => {
             const date = formatDate(new Date(element.updated));
             return (
               <tr
-                style={{ height: "48px", backgroundColor: "#FFFFFF" }}
+                style={{
+                  height: "48px",
+                  backgroundColor: "#FFFFFF",
+                }}
                 key={element._id}
               >
+                <td
+                  style={{
+                    maxHeight: "48px",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    maxWidth: "250px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {element.name}
+                  <Skeleton visible={isLoading} animate={false}></Skeleton>
+                </td>
                 <td>
-                  <Skeleton animate={false} height={48} radius="xl">
-                    {element.name}
+                  <Skeleton visible={isLoading} animate={false}>
+                    {element.cardsCount}
                   </Skeleton>
                 </td>
-                <td>{element.cardsCount}</td>
-                <td>{date}</td>
-                <td>{element.user_name}</td>
+                <td>
+                  <Skeleton visible={isLoading} animate={false}>
+                    {date}
+                  </Skeleton>
+                </td>
+                <td>
+                  <Skeleton visible={isLoading} animate={false}>
+                    {element.user_name}
+                  </Skeleton>
+                </td>
                 <td>
                   {
                     <AllowedActs

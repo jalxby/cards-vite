@@ -11,7 +11,7 @@ import {
   SignUpPayloadType,
 } from "@/features/auth/auth.api.ts";
 import { packsThunks } from "@/features/packs/packs.slice.ts";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   name: "auth",
@@ -58,18 +58,17 @@ const signIn = createAppAsyncThunk<{ profile: ProfileType }, ArgSignInType>(
   }
 );
 
-const signOut = createAsyncThunk<
-  { info: string },
-  unknown,
-  { rejectValue: string }
->("auth/signOut", async (arg, thunkAPI) => {
-  try {
-    const res = await authApi.signOut();
-    return { info: res.data.info };
-  } catch (e) {
-    return thunkAPI.rejectWithValue("error");
+const signOut = createAppAsyncThunk<{ info: string }>(
+  "auth/signOut",
+  async (arg, thunkAPI) => {
+    try {
+      const res = await authApi.signOut();
+      return { info: res.data.info };
+    } catch (e) {
+      return thunkAPI.rejectWithValue("error");
+    }
   }
-});
+);
 
 const me = createAppAsyncThunk<{ profile: ProfileType }>(
   "auth/me",

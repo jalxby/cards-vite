@@ -18,7 +18,15 @@ export const Layout = () => {
       <AppShell
         padding="md"
         header={
-          <Header height={60} p="xs">
+          <Header
+            height={60}
+            p="xs"
+            style={{
+              padding: 0,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <HeaderContainer />
           </Header>
         }
@@ -31,24 +39,26 @@ export const Layout = () => {
           },
         })}
       >
-        {isLoading && (
-          <div
-            style={{
-              zIndex: 10,
-              width: "100%",
-              height: "100%",
-              position: "fixed",
-              top: 0,
-              left: 0,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.5)", // Прозрачный черный фон
-            }}
-          >
-            <Loader size="xl" variant="bars" />
-          </div>
-        )}
+        {/*@TODO remove or replace loader*/}
+        {/*{isLoading && (*/}
+        {/*  <div*/}
+        {/*    style={{*/}
+        {/*      zIndex: 10,*/}
+        {/*      width: "100%",*/}
+        {/*      height: "100%",*/}
+        {/*      position: "fixed",*/}
+        {/*      top: 0,*/}
+        {/*      left: 0,*/}
+        {/*      display: "flex",*/}
+        {/*      justifyContent: "center",*/}
+        {/*      alignItems: "center",*/}
+        {/*      backgroundColor: "rgba(0, 0, 0, 0.5)", // Прозрачный черный фон*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    */}
+        {/*    <Loader size="xl" variant="bars" />*/}
+        {/*  </div>*/}
+        {/*)}*/}
         <Outlet />
         <Notifications />
       </AppShell>
