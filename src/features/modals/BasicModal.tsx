@@ -4,7 +4,7 @@ import { useDisclosure } from "@mantine/hooks";
 import React, { FC, ReactNode } from "react";
 
 type PropsType = {
-  children?: ReactNode;
+  children?: ((close: () => void) => ReactNode) | ReactNode;
   childrenButtonIcon?: ReactNode;
   title?: string;
   buttonTitle?: string;
@@ -35,7 +35,7 @@ const BasicModal: FC<PropsType> = ({
         }}
       >
         <hr style={{ width: "100%", padding: 0, margin: 0 }} />
-        {children}
+        {typeof children === "function" ? children(close) : children}
       </Modal>
       {childrenButtonIcon ? (
         <span onClick={open}>{childrenButtonIcon}</span>

@@ -1,23 +1,27 @@
-.thead {
-  height: 48px;
-  background-color: #EFEFEF;
-
-  th {
-    width: 250px
-  }
-}
-
-.tbody {
-  tr {
+.tableContainer{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  .thead {
     height: 48px;
-    background-color: #FFFFFF;
+    background-color: #EFEFEF;
 
-    td {
-      max-height: 48px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      max-width: 250px;
-      white-space: nowrap;
+    th {
+      width: 250px
+    }
+  }
+
+  .tbody {
+    tr {
+      height: 48px;
+      background-color: #FFFFFF;
+
+      td {
+        max-height: 48px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 250px;
+        white-space: nowrap;
+      }
     }
   }
 }

@@ -6,12 +6,14 @@ import React, { FC } from "react";
 
 type PropsType = {
   pack_id: string;
+  closeModal: () => void;
 };
-export const DeletePack: FC<PropsType> = ({ pack_id }) => {
+export const DeletePack: FC<PropsType> = ({ pack_id, closeModal }) => {
   const cardTitle = useAppSelector(selectPackTitle);
   const dispatch = useAppDispatch();
   const deletePack = () => {
     dispatch(packsThunks.deletePack(pack_id));
+    closeModal();
   };
   return (
     <div>
@@ -25,7 +27,7 @@ export const DeletePack: FC<PropsType> = ({ pack_id }) => {
         }}
       >
         <Button
-          onClick={close}
+          onClick={closeModal}
           color={"white"}
           variant="outline"
           sx={{ borderRadius: "30px" }}

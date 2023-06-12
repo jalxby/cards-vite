@@ -53,20 +53,22 @@ const Packs = () => {
         setPacksPerPage={setPacksPerPage}
       />
       <PacksTable />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Pagination
           value={activePage}
           onChange={(e) => setPage(e)}
           total={totalPages}
         />{" "}
-        {" Show "}
-        <Select
-          sx={{ width: "70px" }}
-          value={packsPerPage}
-          onChange={(e: string) => setPackCount(e)}
-          data={["5", "10", "15", "20"]}
-        />
-        Cards per Page
+        <div style={{ display: "flex" }}>
+          {" Show "}
+          <Select
+            sx={{ width: "70px" }}
+            value={packsPerPage}
+            onChange={(e: string) => setPackCount(e)}
+            data={["5", "10", "15", "20"]}
+          />
+          Cards per Page
+        </div>
       </div>
     </div>
   );

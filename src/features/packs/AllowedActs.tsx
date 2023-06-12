@@ -21,10 +21,10 @@ export const AllowedActs: FC<PropsType> = ({ user_id, pack_id }) => {
       {user_id === myUserId && (
         <div>
           <BasicModal title={"Edit Pack"} childrenButtonIcon={<EditLogo />}>
-            <UpdatePack pack_id={pack_id} />
+            {(close) => <UpdatePack pack_id={pack_id} closeModal={close} />}
           </BasicModal>
           <BasicModal title={"Delete Pack"} childrenButtonIcon={<DeleteLogo />}>
-            <DeletePack pack_id={pack_id} />
+            {(close) => <DeletePack pack_id={pack_id} closeModal={close} />}
           </BasicModal>
         </div>
       )}

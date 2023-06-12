@@ -10,8 +10,8 @@ export const packsApi = {
   deletePack(pack_id: string) {
     return instance.delete<DeleteResponseType>(`cards/pack?id=${pack_id}`);
   },
-  updatePack(params: { id: string; newTitle: string }) {
-    return instance.put("cards/pack", params);
+  updatePack(params: { _id: string; name: string }) {
+    return instance.put<UpdatedCardsPack>("cards/pack", { cardsPack: params });
   },
 };
 export type PacksQueryParamsType = {
@@ -67,6 +67,12 @@ export type NewPackResponse = {
 };
 export type DeleteResponseType = {
   deletedCardsPack: PackType;
+  token: string;
+  tokenDeathTime: number;
+};
+
+export type UpdatedCardsPack = {
+  updatedCardsPack: PackType;
   token: string;
   tokenDeathTime: number;
 };

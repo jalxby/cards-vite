@@ -1,16 +1,11 @@
 import { useAppSelector } from "@/common/hooks/hooks.ts";
-import { formatDate } from "@/common/utils/formatDate.ts";
 import { AllowedActs } from "@/features/packs/AllowedActs.tsx";
-import {
-  selectPacks,
-  selectPacksFormatDate,
-} from "@/features/packs/packs.selectors.ts";
+import { selectPacksFormatDate } from "@/features/packs/packs.selectors.ts";
 import { Skeleton, Table } from "@mantine/core";
 import React from "react";
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { ColumnHeader } from "@/features/packs/ColumnHeader.tsx";
 import s from "./PacksTable.module.scss";
-import { PackType } from "@/features/packs/packs.api.ts";
 
 export enum Column {
   NAME = "Name",
@@ -34,8 +29,8 @@ export const PacksTable = React.memo(() => {
   const isLoading = useAppSelector(selectIsLoading);
   const thead_columns = Array.from(Object.values(Column)).map((column_name) => {
     return (
-      <th>
-        <ColumnHeader key={column_name} title={column_name} />
+      <th key={column_name}>
+        <ColumnHeader title={column_name} />
       </th>
     );
   });
@@ -73,11 +68,13 @@ export const PacksTable = React.memo(() => {
   const tbody_rows = packs.length !== 0 ? rows : <>{"NO PACKS FOUND"}</>;
 
   return (
-    <Table withBorder>
-      <thead className={s.thead}>
-        <tr>{thead_columns}</tr>
-      </thead>
-      <tbody className={s.tbody}>{tbody_rows}</tbody>
-    </Table>
+    <div className={s.tableContainer}>
+      <Table withBorder>
+        <thead className={s.thead}>
+          <tr>{thead_columns}</tr>
+        </thead>
+        <tbody className={s.tbody}>{tbody_rows}</tbody>
+      </Table>
+    </div>
   );
 });

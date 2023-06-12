@@ -13,7 +13,7 @@ export const PacksHeader = () => {
     >
       <h3>Packs List</h3>
       <BasicModal buttonTitle={"Add new pack"} title={"Add new pack"}>
-        <AddNewPack />
+        {(close) => <AddNewPack closeModal={close} />}
       </BasicModal>
     </div>
   );

@@ -1,9 +1,13 @@
 import { useAppDispatch } from "@/common/hooks/hooks.ts";
 import { packsThunks } from "@/features/packs/packs.slice.ts";
 import { Button, Checkbox, Input } from "@mantine/core";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 
-export const AddNewPack = () => {
+type PropsType = {
+  closeModal: () => void;
+};
+
+export const AddNewPack: FC<PropsType> = ({ closeModal }) => {
   const [input, setInput] = useState<string>("");
   const [prvt, setPrvt] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -15,7 +19,7 @@ export const AddNewPack = () => {
   };
   const addNewPack = () => {
     dispatch(packsThunks.createPack({ name: input, private: prvt }));
-    close();
+    closeModal();
   };
   return (
     <div
@@ -39,7 +43,7 @@ export const AddNewPack = () => {
         }}
       >
         <Button
-          onClick={close}
+          onClick={closeModal}
           color={"white"}
           variant="outline"
           sx={{ borderRadius: "30px" }}

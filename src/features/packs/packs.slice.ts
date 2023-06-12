@@ -8,7 +8,7 @@ import {
   PacksQueryParamsType,
   PackType,
 } from "@/features/packs/packs.api.ts";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   name: "packs",
@@ -36,7 +36,15 @@ const slice = createSlice({
   },
 });
 
-const testThunk = createAsyncThunk("packs/testThunk", (arg, thunkAPI) => {});
+const updatePack = createAppAsyncThunk<any, { _id: string; name: string }>(
+  "packs/updatePack",
+  (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      await packsApi.updatePack(arg);
+      thunkAPI.dispatch(getPacks());
+    });
+  }
+);
 
 const createPack = createAppAsyncThunk<
   { data: NewPackResponse },
@@ -87,5 +95,5 @@ const getPacks = createAppAsyncThunk<{ data: GetPacksResponseType }>(
   }
 );
 export const packsReducer = slice.reducer;
-export const packsThunks = { testThunk, getPacks, createPack, deletePack };
+export const packsThunks = { updatePack, getPacks, createPack, deletePack };
 export const packsActions = slice.actions;

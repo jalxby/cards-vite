@@ -9,8 +9,9 @@ import React, { ChangeEvent, FC, useState } from "react";
 
 type PropsType = {
   pack_id: string;
+  closeModal: () => void;
 };
-export const UpdatePack: FC<PropsType> = ({ pack_id }) => {
+export const UpdatePack: FC<PropsType> = ({ pack_id, closeModal }) => {
   const dispatch = useAppDispatch();
   const cardTitle = useAppSelector(selectPackTitle);
   const isPrivate = useAppSelector(selectIsPrivate);
@@ -24,8 +25,8 @@ export const UpdatePack: FC<PropsType> = ({ pack_id }) => {
     setPrvt(e.currentTarget.checked);
   };
   const updatePack = () => {
-    dispatch(packsThunks.createPack({ name: input, private: prvt }));
-    close();
+    dispatch(packsThunks.updatePack({ _id: pack_id, name: input }));
+    closeModal();
   };
 
   return (
@@ -49,7 +50,12 @@ export const UpdatePack: FC<PropsType> = ({ pack_id }) => {
           alignItems: "center",
         }}
       >
-        <Button color={"white"} variant="outline" sx={{ borderRadius: "30px" }}>
+        <Button
+          onClick={closeModal}
+          color={"white"}
+          variant="outline"
+          sx={{ borderRadius: "30px" }}
+        >
           Cancel
         </Button>
         <Button onClick={updatePack} sx={{ borderRadius: "30px" }}>
