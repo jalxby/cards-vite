@@ -1,4 +1,4 @@
-import { routes } from "@/common/routes.tsx";
+import { routes } from "@/routes/routes.tsx";
 import { MantineProvider } from "@mantine/core";
 import { RouterProvider } from "react-router-dom";
 import BasicTable from "@/features/packs/TableMUI.tsx";

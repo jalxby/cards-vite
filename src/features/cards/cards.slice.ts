@@ -1,0 +1,41 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GetPacksResponseType } from "@/features/packs/packs.api.ts";
+import { createAppAsyncThunk } from "@/common/utils/createAppAsyncThunk.ts";
+import { thunkTryCatch } from "@/common/utils/thunk-try-catch.ts";
+import { cardsApi, CardsQueryParamsType } from "@/features/cards/cards.api.ts";
+
+const slice = createSlice({
+  name: "cards",
+  initialState: {
+    queryParams: {} as CardsQueryParamsType,
+    cardsData: {} as GetPacksResponseType,
+  },
+  reducers: {
+    setQueryParams: (
+      state,
+      action: PayloadAction<{ params: CardsQueryParamsType }>
+    ) => {
+      state.queryParams = action.payload.params;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getCards.fulfilled, (state, action) => {
+      state.cardsData = action.payload.data;
+    });
+  },
+});
+
+const getCards = createAppAsyncThunk<{ data: GetPacksResponseType }>(
+  "cards/getCards",
+  (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const params = thunkAPI.getState().cards.queryParams;
+      const res = await cardsApi.getCards(params);
+      return { data: res.data };
+    });
+  }
+);
+
+export const cardsReducer = slice.reducer;
+export const cardsThunks = { getCards };
+export const { setQueryParams } = slice.actions;

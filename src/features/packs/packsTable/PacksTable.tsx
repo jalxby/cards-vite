@@ -1,4 +1,4 @@
-import { useAppSelector } from "@/common/hooks/hooks.ts";
+import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { AllowedActs } from "@/features/packs/AllowedActs.tsx";
 import { selectPacksFormatDate } from "@/features/packs/packs.selectors.ts";
 import { Skeleton, Table } from "@mantine/core";
@@ -6,6 +6,8 @@ import React from "react";
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { ColumnHeader } from "@/features/packs/ColumnHeader.tsx";
 import s from "./PacksTable.module.scss";
+import { setQueryParams } from "@/features/cards/cards.slice.ts";
+import { useNavigate } from "react-router-dom";
 
 export enum Column {
   NAME = "Name",
@@ -27,6 +29,16 @@ export const CurrentSorted: Record<string, ValuesToSort> = {
 export const PacksTable = React.memo(() => {
   const packs = useAppSelector(selectPacksFormatDate);
   const isLoading = useAppSelector(selectIsLoading);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onClickPackTitle = (cardsPack_id: string) => {
+    dispatch(
+      setQueryParams({ params: { cardsPack_id, page: 0, pageCount: 7 } })
+    );
+    navigate("/cards");
+  };
+
   const thead_columns = Array.from(Object.values(Column)).map((column_name) => {
     return (
       <th key={column_name}>
@@ -38,7 +50,7 @@ export const PacksTable = React.memo(() => {
   const rows = packs.map(
     ({ _id, name, cardsCount, updated, user_name, user_id }) => (
       <tr key={_id}>
-        <td>
+        <td onClick={() => onClickPackTitle(_id)}>
           <Skeleton visible={isLoading} animate={false}>
             {name}
           </Skeleton>

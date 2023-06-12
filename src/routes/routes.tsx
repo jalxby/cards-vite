@@ -7,6 +7,7 @@ import Packs from "@/features/packs/Packs.tsx";
 import { Profile } from "@/features/profile/Profile.tsx";
 import { CreateNewPassword } from "@/features/auth/Set-new-password.tsx";
 import { createBrowserRouter, Outlet } from "react-router-dom";
+import Cards from "@/features/cards/Cards.tsx";
 
 export const routes = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ export const routes = createBrowserRouter([
       {
         path: `/packs`,
         element: <Packs />,
+      },
+      {
+        path: `/cards`,
+        element: <Cards />,
       },
       {
         path: `/signup`,

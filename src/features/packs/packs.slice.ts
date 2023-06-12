@@ -14,7 +14,7 @@ const slice = createSlice({
   name: "packs",
   initialState: {
     queryParams: {} as PacksQueryParamsType,
-    cardsData: {
+    packsData: {
       cardPacks: [] as PackType[],
     } as GetPacksResponseType,
   },
@@ -31,7 +31,7 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getPacks.fulfilled, (state, action) => {
-      state.cardsData = action.payload.data;
+      state.packsData = action.payload.data;
     });
   },
 });
@@ -70,26 +70,8 @@ const getPacks = createAppAsyncThunk<{ data: GetPacksResponseType }>(
   "packs/getPacks",
   (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const {
-        packName,
-        sortPacks,
-        page,
-        pageCount = 5,
-        max,
-        min,
-        user_id,
-        block,
-      } = thunkAPI.getState().packs.queryParams;
-      const res = await packsApi.getPacks({
-        packName,
-        sortPacks,
-        page,
-        pageCount,
-        max,
-        min,
-        user_id,
-        block,
-      });
+      const params = thunkAPI.getState().packs.queryParams;
+      const res = await packsApi.getPacks(params);
       return { data: res.data };
     });
   }
