@@ -6,7 +6,7 @@ import {
   selectTotalPacks,
 } from "@/features/packs/packs.selectors.ts";
 import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
-import { PacksTable } from "@/features/packs/PacksTable.tsx";
+import { PacksTable } from "@/features/packs/packsTable/PacksTable.tsx";
 import { Pagination, Select } from "@mantine/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

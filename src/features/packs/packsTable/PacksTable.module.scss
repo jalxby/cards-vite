@@ -1,0 +1,23 @@
+.thead {
+  height: 48px;
+  background-color: #EFEFEF;
+
+  th {
+    width: 250px
+  }
+}
+
+.tbody {
+  tr {
+    height: 48px;
+    background-color: #FFFFFF;
+
+    td {
+      max-height: 48px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 250px;
+      white-space: nowrap;
+    }
+  }
+}

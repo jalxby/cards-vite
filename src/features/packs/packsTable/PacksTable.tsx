@@ -6,6 +6,7 @@ import { Skeleton, Table } from "@mantine/core";
 import React from "react";
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { ColumnHeader } from "@/features/packs/ColumnHeader.tsx";
+import s from "./PacksTable.module.scss";
 
 export enum Column {
   NAME = "Name",
@@ -27,49 +28,28 @@ export const CurrentSorted: Record<string, ValuesToSort> = {
 export const PacksTable = React.memo(() => {
   const packs = useAppSelector(selectPacks);
   const isLoading = useAppSelector(selectIsLoading);
-
+  const columns = Array.from(Object.values(Column)).map((column_name) => {
+    return (
+      <th>
+        <ColumnHeader key={column_name} title={column_name} />
+      </th>
+    );
+  });
   return (
     <Table withBorder>
-      <thead style={{ height: "48px", backgroundColor: "#EFEFEF" }}>
-        <tr>
-          <th style={{ width: "250px" }}>
-            <ColumnHeader title={Column.NAME} />
-          </th>
-          <th style={{ width: "250px" }}>
-            <ColumnHeader title={Column.CARDS} />
-          </th>
-          <th style={{ width: "250px" }}>
-            <ColumnHeader title={Column.LAST_UPDATED} />
-          </th>
-          <th style={{ width: "250px" }}>
-            <ColumnHeader title={Column.CREATED_BY} />
-          </th>
-          <th>{Column.ACTIONS}</th>
-        </tr>
+      <thead className={s.thead}>
+        <tr>{columns}</tr>
       </thead>
-      <tbody>
+      <tbody className={s.tbody}>
         {packs.length !== 0 ? (
           packs.map((element) => {
             const date = formatDate(new Date(element.updated));
             return (
-              <tr
-                style={{
-                  height: "48px",
-                  backgroundColor: "#FFFFFF",
-                }}
-                key={element._id}
-              >
-                <td
-                  style={{
-                    maxHeight: "48px",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    maxWidth: "250px",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {element.name}
-                  <Skeleton visible={isLoading} animate={false}></Skeleton>
+              <tr key={element._id}>
+                <td>
+                  <Skeleton visible={isLoading} animate={false}>
+                    {element.name}
+                  </Skeleton>
                 </td>
                 <td>
                   <Skeleton visible={isLoading} animate={false}>
