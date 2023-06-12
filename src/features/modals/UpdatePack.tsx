@@ -39,6 +39,7 @@ export const UpdatePack: FC<PropsType> = ({ pack_id, closeModal }) => {
         gap: 30,
       }}
     >
+      {pack_id}
       <Input.Wrapper label="Name Pack">
         <Input value={input} onChange={onChangeInput} placeholder="Name Pack" />
       </Input.Wrapper>

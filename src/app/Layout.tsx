@@ -1,6 +1,6 @@
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
-import { HeaderContainer } from "@/features/Header/HeaderContainer.tsx";
+import { HeaderContainer } from "@/features/header/HeaderContainer.tsx";
 import { AppShell, Header, Loader } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { useEffect } from "react";
