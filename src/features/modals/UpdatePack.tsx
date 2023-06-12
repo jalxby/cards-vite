@@ -16,13 +16,13 @@ export const UpdatePack: FC<PropsType> = ({ pack_id, closeModal }) => {
   const cardTitle = useAppSelector(selectPackTitle);
   const isPrivate = useAppSelector(selectIsPrivate);
   const [input, setInput] = useState<string>(cardTitle(pack_id));
-  const [prvt, setPrvt] = useState<boolean>(isPrivate(pack_id));
+  const [personal, setPersonal] = useState<boolean>(isPrivate(pack_id));
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.currentTarget.value);
   };
-  const togglePrvt = (e: ChangeEvent<HTMLInputElement>) => {
-    setPrvt(e.currentTarget.checked);
+  const togglePersonal = (e: ChangeEvent<HTMLInputElement>) => {
+    setPersonal(e.currentTarget.checked);
   };
   const updatePack = () => {
     dispatch(packsThunks.updatePack({ _id: pack_id, name: input }));
@@ -42,7 +42,11 @@ export const UpdatePack: FC<PropsType> = ({ pack_id, closeModal }) => {
       <Input.Wrapper label="Name Pack">
         <Input value={input} onChange={onChangeInput} placeholder="Name Pack" />
       </Input.Wrapper>
-      <Checkbox onChange={togglePrvt} checked={prvt} label={"Private pack"} />
+      <Checkbox
+        onChange={togglePersonal}
+        checked={personal}
+        label={"Private pack"}
+      />
       <div
         style={{
           display: "flex",
@@ -50,17 +54,10 @@ export const UpdatePack: FC<PropsType> = ({ pack_id, closeModal }) => {
           alignItems: "center",
         }}
       >
-        <Button
-          onClick={closeModal}
-          color={"white"}
-          variant="outline"
-          sx={{ borderRadius: "30px" }}
-        >
+        <Button onClick={closeModal} color={"white"} variant="outline">
           Cancel
         </Button>
-        <Button onClick={updatePack} sx={{ borderRadius: "30px" }}>
-          Save
-        </Button>
+        <Button onClick={updatePack}>Save</Button>
       </div>
     </div>
   );

@@ -26,20 +26,10 @@ export const DeletePack: FC<PropsType> = ({ pack_id, closeModal }) => {
           alignItems: "center",
         }}
       >
-        <Button
-          onClick={closeModal}
-          color={"white"}
-          variant="outline"
-          sx={{ borderRadius: "30px" }}
-        >
+        <Button onClick={closeModal} color={"white"} variant="outline">
           Cancel
         </Button>
-        <Button
-          variant={"filled"}
-          color={"red"}
-          onClick={deletePack}
-          sx={{ borderRadius: "30px" }}
-        >
+        <Button variant={"filled"} color={"red"} onClick={deletePack}>
           Delete
         </Button>
       </div>

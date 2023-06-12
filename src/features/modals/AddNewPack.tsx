@@ -42,17 +42,10 @@ export const AddNewPack: FC<PropsType> = ({ closeModal }) => {
           alignItems: "center",
         }}
       >
-        <Button
-          onClick={closeModal}
-          color={"white"}
-          variant="outline"
-          sx={{ borderRadius: "30px" }}
-        >
+        <Button onClick={closeModal} color={"white"} variant="outline">
           Cancel
         </Button>
-        <Button onClick={addNewPack} sx={{ borderRadius: "30px" }}>
-          Save
-        </Button>
+        <Button onClick={addNewPack}>Save</Button>
       </div>
     </div>
   );
