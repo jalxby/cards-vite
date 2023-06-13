@@ -1,6 +1,6 @@
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
-import { HeaderContainer } from "@/features/header/HeaderContainer.tsx";
+import { HeaderContainer } from "@/common/header/HeaderContainer.tsx";
 import { AppShell, Header, Loader } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { useEffect } from "react";
@@ -8,11 +8,10 @@ import { Outlet, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Layout = () => {
-  const navigate = useNavigate();
-  const isLoading = useAppSelector(selectIsLoading);
-  useEffect(() => {
-    navigate("/packs");
-  }, []);
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   navigate("/packs");
+  // }, []);
   return (
     <div>
       <AppShell

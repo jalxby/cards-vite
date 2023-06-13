@@ -21,9 +21,9 @@ export const Profile = () => {
     dispatch(authThunks.signOut());
   };
 
-  if (!tokenDeathTime || tokenDeathTime < Number(new Date())) {
-    return <Navigate to={"/signin"} />;
-  }
+  // if (!tokenDeathTime || tokenDeathTime < Number(new Date())) {
+  //   return <Navigate to={"/signin"} />;
+  // }
 
   return (
     <div className={s.container}>

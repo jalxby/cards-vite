@@ -75,7 +75,6 @@ const me = createAppAsyncThunk<{ profile: ProfileType }>(
   async (_, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await authApi.me();
-      thunkAPI.dispatch(packsThunks.getPacks());
       return { profile: res.data };
     });
   }

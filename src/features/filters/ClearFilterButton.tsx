@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Paper } from "@mantine/core";
-import s from "@/features/packs/filters/Filters.module.scss";
+import s from "@/features/filters/Filters.module.scss";
 import { FilterLogo } from "@/assets/FilterLogo.tsx";
 import { useAppDispatch } from "@/common/hooks/hooks.ts";
 import { packsActions } from "@/features/packs/packs.slice.ts";

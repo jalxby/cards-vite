@@ -21,11 +21,20 @@ export const selectMinCardsCount = (state: RootState) =>
   state.packs.packsData.minCardsCount;
 export const selectMaxCardsCount = (state: RootState) =>
   state.packs.packsData.maxCardsCount;
+export const selectUserID = (state: RootState) =>
+  state.packs.queryParams.user_id;
 
 export const selectRangeMinMaxCards = createSelector(
   [selectMinCardsCount, selectMaxCardsCount],
   (min, max): [number, number] => {
     return [min, max];
+  }
+);
+
+export const selectIsMyPacksSelected = createSelector(
+  [selectUserID],
+  (user_id): boolean => {
+    return !!user_id;
   }
 );
 

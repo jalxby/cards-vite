@@ -8,7 +8,7 @@ type PropsType = {
   title: string;
 };
 
-export const PacksHeader: FC<PropsType> = ({ title, addButtonTitle }) => {
+export const PageHeader: FC<PropsType> = ({ title, addButtonTitle }) => {
   const navigate = useNavigate();
 
   return (

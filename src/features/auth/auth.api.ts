@@ -20,7 +20,7 @@ export const authApi = {
     );
   },
   me() {
-    return instance.post<ProfileType, AxiosResponse<ProfileType>>("auth/me");
+    return instance.post<ProfileType>("auth/me");
   },
   changeProfile(payload: ProfileModel) {
     return instance.put<UpdatedUser, AxiosResponse<UpdatedUser>>(

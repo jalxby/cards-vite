@@ -54,7 +54,7 @@ export const routes = createBrowserRouter([
         element: <Outlet />,
         children: [
           {
-            path: "/packs",
+            path: "/",
             element: <Packs />,
           },
         ],

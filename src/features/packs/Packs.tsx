@@ -1,79 +1,36 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
-import {
-  selectItemsPerPageData,
-  selectPageCount,
-  selectQueryParams,
-  selectTotalPacks,
-} from "@/features/packs/packs.selectors.ts";
-import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
-import { UniversalTable } from "@/features/packs/universalTable/UniversalTable.tsx";
-import { Pagination, Select } from "@mantine/core";
-import React, { useCallback, useEffect, useState } from "react";
+import { selectQueryParams } from "@/features/packs/packs.selectors.ts";
+import { packsThunks } from "@/features/packs/packs.slice.ts";
+import { PacksTable } from "@/features/packs/packsTable/PacksTable.tsx";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { PacksHeader } from "@/features/packs/PacksHeader.tsx";
-import { Filters } from "@/features/packs/filters/Filters.tsx";
+import { PageHeader } from "@/common/PageHeader.tsx";
+import { Filters } from "@/features/filters/Filters.tsx";
+import { UniversalPagination } from "@/features/universalPagination/UniversalPagination.tsx";
 
 const Packs = () => {
-  console.log("packs rendering");
-  const [activePage, setActivePage] = useState<number>(1);
-  const [packsPerPage, setPacksPerPage] = useState<string | null>("5");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const totalPacks = useAppSelector(selectTotalPacks);
-  const pageCount = useAppSelector(selectPageCount);
   const queryParams = useAppSelector(selectQueryParams);
-  const selectData = useAppSelector(selectItemsPerPageData);
-  const totalPages = Math.ceil(totalPacks / pageCount);
-
-  const setPage = useCallback((page: number) => {
-    setActivePage(page);
-    dispatch(packsActions.setQueryParams({ params: { page: page } }));
-  }, []);
-  const setPackCount = useCallback((packsNumber: string) => {
-    setPacksPerPage(packsNumber);
-    dispatch(
-      packsActions.setQueryParams({ params: { pageCount: +packsNumber } })
-    );
-  }, []);
-
-  useEffect(() => {
-    dispatch(packsThunks.getPacks());
-  }, [dispatch, queryParams]);
 
   useEffect(() => {
     dispatch(authThunks.me())
       .unwrap()
+      .then(() => {
+        dispatch(packsThunks.getPacks());
+      })
       .catch(() => {
         navigate("/signin");
       });
-  }, []);
+  }, [queryParams]);
 
   return (
     <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
-      <PacksHeader addButtonTitle={"Add new pack"} title={"Packs List"} />
-      <Filters
-        setActivePage={setActivePage}
-        setPacksPerPage={setPacksPerPage}
-      />
-      <UniversalTable />
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Pagination
-          value={activePage}
-          onChange={(e) => setPage(e)}
-          total={totalPages}
-        />{" "}
-        <div style={{ display: "flex" }}>
-          {" Show "}
-          <Select
-            sx={{ width: "70px" }}
-            value={packsPerPage}
-            onChange={(e: string) => setPackCount(e)}
-            data={selectData}
-          />
-          Cards per Page
-        </div>
-      </div>
+      <PageHeader addButtonTitle={"Add new pack"} title={"Packs List"} />
+      <Filters />
+      <PacksTable />
+      <UniversalPagination />
     </div>
   );
 };

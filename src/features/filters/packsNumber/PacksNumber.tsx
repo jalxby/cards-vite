@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import s from "@/features/packs/filters/Filters.module.scss";
+import s from "@/features/filters/Filters.module.scss";
 import { Input, RangeSlider } from "@mantine/core";
 import { packsActions } from "@/features/packs/packs.slice.ts";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectRangeMinMaxCards } from "@/features/packs/packs.selectors.ts";
 
 export const PacksNumber = () => {
+  //@TODO пересмотреть получение минимального и максимального значений в слайдер
   const minMaxCardsRange = useAppSelector(selectRangeMinMaxCards);
   const [rangeValue, setRangeValue] =
     useState<[number, number]>(minMaxCardsRange);

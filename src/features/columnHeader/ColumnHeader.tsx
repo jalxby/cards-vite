@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
-import s from "@/features/packs/ColumnHeader.module.scss";
+import s from "@/features/columnHeader/ColumnHeader.module.scss";
 import { useSortColumn } from "@/common/utils/useSortColumn.ts";
-import { CurrentSorted } from "@/features/packs/universalTable/UniversalTable.tsx";
+import { CurrentSorted } from "@/features/packs/packsTable/PacksTable.tsx";
 
 type PropsType = {
   title: string;
