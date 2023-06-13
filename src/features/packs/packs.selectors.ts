@@ -15,6 +15,19 @@ export const selectPackTitle = (state: RootState) => (id: string) =>
   state.packs.packsData.cardPacks.filter((pack) => pack._id === id)[0].name;
 export const selectIsPrivate = (state: RootState) => (id: string) =>
   state.packs.packsData.cardPacks.filter((pack) => pack._id === id)[0].private;
+export const selectItemsPerPageData = (state: RootState) =>
+  state.packs.packsPerPage;
+export const selectMinCardsCount = (state: RootState) =>
+  state.packs.packsData.minCardsCount;
+export const selectMaxCardsCount = (state: RootState) =>
+  state.packs.packsData.maxCardsCount;
+
+export const selectRangeMinMaxCards = createSelector(
+  [selectMinCardsCount, selectMaxCardsCount],
+  (min, max): [number, number] => {
+    return [min, max];
+  }
+);
 
 export const selectPacksFormatDate = createSelector([selectPacks], (packs) => {
   return packs.map((pack) => ({

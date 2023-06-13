@@ -10,10 +10,13 @@ import {
 } from "@/features/packs/packs.api.ts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+const queryParamsDefaults = { pageCount: 5, packName: "" };
+
 const slice = createSlice({
   name: "packs",
   initialState: {
-    queryParams: {} as PacksQueryParamsType,
+    packsPerPage: ["5", "10", "15", "25", "50", "100"],
+    queryParams: queryParamsDefaults as PacksQueryParamsType,
     packsData: {
       cardPacks: [] as PackType[],
     } as GetPacksResponseType,
@@ -26,7 +29,7 @@ const slice = createSlice({
       state.queryParams = { ...state.queryParams, ...action.payload.params };
     },
     clearQueryParams: (state) => {
-      state.queryParams = {};
+      state.queryParams = { pageCount: 5, packName: "" };
     },
   },
   extraReducers: (builder) => {

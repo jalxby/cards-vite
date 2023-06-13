@@ -5,7 +5,7 @@ import { Skeleton, Table } from "@mantine/core";
 import React from "react";
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { ColumnHeader } from "@/features/packs/ColumnHeader.tsx";
-import s from "./PacksTable.module.scss";
+import s from "./UniversalTable.module.scss";
 import { setQueryParams } from "@/features/cards/cards.slice.ts";
 import { useNavigate } from "react-router-dom";
 
@@ -26,7 +26,7 @@ export const CurrentSorted: Record<string, ValuesToSort> = {
   "Created By": "user_name",
 };
 
-export const PacksTable = React.memo(() => {
+export const UniversalTable = React.memo(() => {
   const packs = useAppSelector(selectPacksFormatDate);
   const isLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();

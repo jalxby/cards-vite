@@ -1,12 +1,13 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import {
+  selectItemsPerPageData,
   selectPageCount,
   selectQueryParams,
   selectTotalPacks,
 } from "@/features/packs/packs.selectors.ts";
 import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
-import { PacksTable } from "@/features/packs/packsTable/PacksTable.tsx";
+import { UniversalTable } from "@/features/packs/universalTable/UniversalTable.tsx";
 import { Pagination, Select } from "@mantine/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,15 +23,18 @@ const Packs = () => {
   const totalPacks = useAppSelector(selectTotalPacks);
   const pageCount = useAppSelector(selectPageCount);
   const queryParams = useAppSelector(selectQueryParams);
+  const selectData = useAppSelector(selectItemsPerPageData);
   const totalPages = Math.ceil(totalPacks / pageCount);
 
-  const setPage = useCallback((e: number) => {
-    setActivePage(e);
-    dispatch(packsActions.setQueryParams({ params: { page: e } }));
+  const setPage = useCallback((page: number) => {
+    setActivePage(page);
+    dispatch(packsActions.setQueryParams({ params: { page: page } }));
   }, []);
-  const setPackCount = useCallback((e: string) => {
-    setPacksPerPage(e);
-    dispatch(packsActions.setQueryParams({ params: { pageCount: +e } }));
+  const setPackCount = useCallback((packsNumber: string) => {
+    setPacksPerPage(packsNumber);
+    dispatch(
+      packsActions.setQueryParams({ params: { pageCount: +packsNumber } })
+    );
   }, []);
 
   useEffect(() => {
@@ -47,12 +51,12 @@ const Packs = () => {
 
   return (
     <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
-      <PacksHeader />
+      <PacksHeader addButtonTitle={"Add new pack"} title={"Packs List"} />
       <Filters
         setActivePage={setActivePage}
         setPacksPerPage={setPacksPerPage}
       />
-      <PacksTable />
+      <UniversalTable />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Pagination
           value={activePage}
@@ -65,7 +69,7 @@ const Packs = () => {
             sx={{ width: "70px" }}
             value={packsPerPage}
             onChange={(e: string) => setPackCount(e)}
-            data={["5", "10", "15", "20"]}
+            data={selectData}
           />
           Cards per Page
         </div>

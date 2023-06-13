@@ -7,6 +7,7 @@ import { cardsApi, CardsQueryParamsType } from "@/features/cards/cards.api.ts";
 const slice = createSlice({
   name: "cards",
   initialState: {
+    cardsPerPage: ["5", "10", "15", "25", "50", "100"],
     queryParams: {} as CardsQueryParamsType,
     cardsData: {} as GetPacksResponseType,
   },
