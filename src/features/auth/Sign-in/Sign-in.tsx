@@ -39,13 +39,11 @@ export const SignIn = () => {
   const onSubmit: SubmitHandler<FormData> = (data) => {
     dispatch(authThunks.signIn(data))
       .unwrap()
+
       .then(() => {
-        dispatch(packsThunks.getPacks())
-          .unwrap()
-          .then(() => {
-            navigate("/packs");
-          });
+        navigate("/packs");
       })
+
       .catch((error) => {
         toast(error);
       });

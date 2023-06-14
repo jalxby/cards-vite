@@ -1,13 +1,13 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { AllowedActs } from "@/common/AllowedActs.tsx";
 import { selectPacksFormatDate } from "@/features/packs/packs.selectors.ts";
-import { Skeleton, Table } from "@mantine/core";
+import { Table } from "@mantine/core";
 import React from "react";
-import { selectIsLoading } from "@/app/app.selectors.ts";
 import { ColumnHeader } from "@/features/columnHeader/ColumnHeader.tsx";
 import s from "./PacksTable.module.scss";
 import { cardsThunks, setQueryParams } from "@/features/cards/cards.slice.ts";
 import { useNavigate } from "react-router-dom";
+import { TableDataItem } from "@/common/TableDataItem.tsx";
 
 export enum Column {
   NAME = "Name",
@@ -26,9 +26,9 @@ export const CurrentSorted: Record<string, ValuesToSort> = {
   "Created By": "user_name",
 };
 
-export const PacksTable = React.memo(() => {
+export const PacksTable = () => {
+  console.log("packstable rendering");
   const packs = useAppSelector(selectPacksFormatDate);
-  const isLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -55,24 +55,16 @@ export const PacksTable = React.memo(() => {
     ({ _id, name, cardsCount, updated, user_name, user_id }) => (
       <tr key={_id}>
         <td onClick={() => onClickPackTitle(_id)}>
-          <Skeleton visible={isLoading} animate={false}>
-            {name}
-          </Skeleton>
+          <TableDataItem>{name}</TableDataItem>
         </td>
         <td>
-          <Skeleton visible={isLoading} animate={false}>
-            {cardsCount}
-          </Skeleton>
+          <TableDataItem>{cardsCount}</TableDataItem>
         </td>
         <td>
-          <Skeleton visible={isLoading} animate={false}>
-            {updated}
-          </Skeleton>
+          <TableDataItem>{updated}</TableDataItem>
         </td>
         <td>
-          <Skeleton visible={isLoading} animate={false}>
-            {user_name}
-          </Skeleton>
+          <TableDataItem>{user_name}</TableDataItem>
         </td>
         <td>
           <AllowedActs user_id={user_id} pack_id={_id} />
@@ -93,4 +85,4 @@ export const PacksTable = React.memo(() => {
       </Table>
     </div>
   );
-});
+};

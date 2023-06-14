@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { packsActions } from "@/features/packs/packs.slice.ts";
+import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
 import { useAppDispatch } from "@/common/hooks/hooks.ts";
-import { useDebounce } from "usehooks-ts";
 
 export const Search = React.memo(() => {
+  console.log("search rendering");
   const [search, setSearch] = useState<string>("");
   const dispatch = useAppDispatch();
-  // const debouncedSearch = useDebounce(() => {
-  //   dispatch(
-  //     packsActions.setQueryParams({
-  //       params: {
-  //         packName: search,
-  //       },
-  //     })
-  //   );
-  // }, 800);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      dispatch(packsActions.setQueryParams({ params: { packName: search } }));
+      dispatch(packsThunks.getPacks());
+    }, 800);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   return (
     <Input.Wrapper label="Search">
