@@ -8,6 +8,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import s from "./Signin.module.scss";
+import { packsThunks } from "@/features/packs/packs.slice.ts";
 
 const schema = yup.object({
   email: yup
@@ -39,7 +40,11 @@ export const SignIn = () => {
     dispatch(authThunks.signIn(data))
       .unwrap()
       .then(() => {
-        navigate("/packs");
+        dispatch(packsThunks.getPacks())
+          .unwrap()
+          .then(() => {
+            navigate("/packs");
+          });
       })
       .catch((error) => {
         toast(error);

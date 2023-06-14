@@ -3,6 +3,8 @@ import { formatDate } from "@/common/utils/formatDate.ts";
 import { RootState } from "@/app/store.ts";
 
 export const selectCards = (state: RootState) => state.cards.cardsData.cards;
+export const selectPackName = (state: RootState) =>
+  state.cards.cardsData.packName;
 
 const selectUserIdFromCards = (state: RootState) =>
   state.cards.cardsData.packUserId;

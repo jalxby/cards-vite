@@ -1,13 +1,20 @@
-.tableContainer{
+.tableContainer {
   margin-top: 20px;
   margin-bottom: 20px;
+
   .thead {
     height: 48px;
-    background-color: #EFEFEF;
 
-    th {
-      width: 250px
+
+    tr {
+      background-color: #EFEFEF;
+
+      th {
+
+        width: 250px;
+      }
     }
+
   }
 
   .tbody {

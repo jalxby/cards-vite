@@ -6,7 +6,7 @@ import React from "react";
 import { selectIsLoading } from "@/app/app.selectors.ts";
 import { ColumnHeader } from "@/features/columnHeader/ColumnHeader.tsx";
 import s from "./PacksTable.module.scss";
-import { setQueryParams } from "@/features/cards/cards.slice.ts";
+import { cardsThunks, setQueryParams } from "@/features/cards/cards.slice.ts";
 import { useNavigate } from "react-router-dom";
 
 export enum Column {
@@ -36,7 +36,11 @@ export const PacksTable = React.memo(() => {
     dispatch(
       setQueryParams({ params: { cardsPack_id, page: 0, pageCount: 7 } })
     );
-    navigate("/cards");
+    dispatch(cardsThunks.getCards())
+      .unwrap()
+      .then(() => {
+        navigate("/cards");
+      });
   };
 
   const thead_columns = Array.from(Object.values(Column)).map((column_name) => {

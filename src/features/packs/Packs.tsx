@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import { selectQueryParams } from "@/features/packs/packs.selectors.ts";
-import { packsThunks } from "@/features/packs/packs.slice.ts";
 import { PacksTable } from "@/features/packs/packsTable/PacksTable.tsx";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,20 +9,17 @@ import { Filters } from "@/features/filters/Filters.tsx";
 import { UniversalPagination } from "@/features/universalPagination/UniversalPagination.tsx";
 
 const Packs = () => {
+  console.log("packs rendering");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const queryParams = useAppSelector(selectQueryParams);
 
   useEffect(() => {
     dispatch(authThunks.me())
       .unwrap()
-      .then(() => {
-        dispatch(packsThunks.getPacks());
-      })
       .catch(() => {
         navigate("/signin");
       });
-  }, [queryParams]);
+  }, []);
 
   return (
     <div style={{ maxWidth: "1300px", margin: "0 auto" }}>

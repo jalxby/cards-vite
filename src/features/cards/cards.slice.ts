@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GetPacksResponseType } from "@/features/packs/packs.api.ts";
 import { createAppAsyncThunk } from "@/common/utils/createAppAsyncThunk.ts";
 import { thunkTryCatch } from "@/common/utils/thunk-try-catch.ts";
 import {
   cardsApi,
   CardsQueryParamsType,
+  CardType,
   GetCardsResponseType,
 } from "@/features/cards/cards.api.ts";
 
@@ -13,7 +13,7 @@ const slice = createSlice({
   initialState: {
     cardsPerPage: ["5", "10", "15", "25", "50", "100"],
     queryParams: {} as CardsQueryParamsType,
-    cardsData: {} as GetCardsResponseType,
+    cardsData: { cards: [] as CardType[] } as GetCardsResponseType,
   },
   reducers: {
     setQueryParams: (
