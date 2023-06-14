@@ -1,12 +1,12 @@
-import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import { useAppDispatch } from "@/common/hooks/hooks.ts";
 import { authThunks } from "@/features/auth/auth.slice.ts";
-import { selectQueryParams } from "@/features/packs/packs.selectors.ts";
 import { PacksTable } from "@/features/packs/packsTable/PacksTable.tsx";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageHeader } from "@/common/PageHeader.tsx";
 import { Filters } from "@/features/filters/Filters.tsx";
 import { UniversalPagination } from "@/features/universalPagination/UniversalPagination.tsx";
+import s from "./Packs.module.scss";
 
 const Packs = () => {
   console.log("packs rendering");
@@ -22,7 +22,7 @@ const Packs = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: "1300px", margin: "0 auto" }}>
+    <div className={s.packsContainer}>
       <PageHeader addButtonTitle={"Add new pack"} title={"Packs List"} />
       <Filters />
       <PacksTable />
