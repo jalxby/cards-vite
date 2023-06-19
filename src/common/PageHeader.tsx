@@ -1,7 +1,8 @@
-import React, { FC } from "react";
-import BasicModal from "@/features/modals/BasicModal.tsx";
+import { BackArrowIcon } from "@/assets/BackArrowIcon";
 import { AddNewPack } from "@/features/modals/AddNewPack.tsx";
-import { NavLink, useNavigate } from "react-router-dom";
+import BasicModal from "@/features/modals/BasicModal.tsx";
+import React, { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 type PropsType = {
   addButtonTitle: string;
@@ -20,7 +21,10 @@ export const PageHeader: FC<PropsType> = ({ title, addButtonTitle }) => {
       }}
     >
       <div>
-        <h4 onClick={() => navigate(-1)}>{"<--- Back to Packs List"}</h4>
+        <div onClick={() => navigate(-1)} style={{ cursor: "pointer" }}>
+          <BackArrowIcon />
+          {" Back to Packs List"}
+        </div>
         <h3>{title}</h3>
       </div>
 

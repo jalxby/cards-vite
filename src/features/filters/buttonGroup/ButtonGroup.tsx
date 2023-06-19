@@ -3,7 +3,7 @@ import { Button, Input } from "@mantine/core";
 import s from "@/features/filters/Filters.module.scss";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectIsLoading } from "@/app/app.selectors.ts";
-import { packsActions } from "@/features/packs/packs.slice.ts";
+import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
 import { selectMyUserId } from "@/features/auth/auth.selectors.ts";
 import { selectIsMyPacksSelected } from "@/features/packs/packs.selectors.ts";
 
@@ -18,6 +18,7 @@ export const ButtonGroup = () => {
         params: { user_id: isMy ? myUserId : "" },
       })
     );
+    dispatch(packsThunks.getPacks());
   };
   return (
     <Input.Wrapper label="Show packs cards">

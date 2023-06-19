@@ -2,6 +2,8 @@ import { RootState } from "@/app/store.ts";
 import { createSelector } from "@reduxjs/toolkit";
 import { formatDate } from "@/common/utils/formatDate.ts";
 
+export const selectActivePage = (state: RootState) =>
+  state.packs.packsData.page;
 export const selectTotalPacks = (state: RootState) =>
   state.packs.packsData.cardPacksTotalCount;
 export const selectPageCount = (state: RootState) =>

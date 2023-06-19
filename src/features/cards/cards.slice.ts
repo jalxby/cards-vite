@@ -12,7 +12,7 @@ const slice = createSlice({
   name: "cards",
   initialState: {
     cardsPerPage: ["5", "10", "15", "25", "50", "100"],
-    queryParams: {} as CardsQueryParamsType,
+    queryParams: { pageCount: 5 } as CardsQueryParamsType,
     cardsData: { cards: [] as CardType[] } as GetCardsResponseType,
   },
   reducers: {
@@ -20,7 +20,7 @@ const slice = createSlice({
       state,
       action: PayloadAction<{ params: CardsQueryParamsType }>
     ) => {
-      state.queryParams = action.payload.params;
+      state.queryParams = { ...state.queryParams, ...action.payload.params };
     },
   },
   extraReducers: (builder) => {
@@ -43,4 +43,4 @@ const getCards = createAppAsyncThunk<{ data: GetCardsResponseType }>(
 
 export const cardsReducer = slice.reducer;
 export const cardsThunks = { getCards };
-export const { setQueryParams } = slice.actions;
+export const cardsActions = slice.actions;

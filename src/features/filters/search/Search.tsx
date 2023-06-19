@@ -1,30 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { Input } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
 import { useAppDispatch } from "@/common/hooks/hooks.ts";
+import { useDebouncedCallback } from "use-debounce";
 
-export const Search = React.memo(() => {
-  console.log("search rendering");
-  const [search, setSearch] = useState<string>("");
-  const dispatch = useAppDispatch();
+type PropsType = {
+  debouncedSearchCallback: (search: string) => void;
+};
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      dispatch(packsActions.setQueryParams({ params: { packName: search } }));
-      dispatch(packsThunks.getPacks());
+export const Search: FC<PropsType> = React.memo(
+  ({ debouncedSearchCallback }) => {
+    console.log("search rendering");
+    const [search, setSearch] = useState<string>("");
+
+    const debouncedDispatch = useDebouncedCallback(() => {
+      debouncedSearchCallback(search);
     }, 800);
-    return () => clearTimeout(timeout);
-  }, [search]);
 
-  return (
-    <Input.Wrapper label="Search">
-      <Input
-        value={search}
-        onChange={(e) => setSearch(e.currentTarget.value)}
-        icon={<IconSearch />}
-        placeholder={"provide yours text"}
-      />
-    </Input.Wrapper>
-  );
-});
+    const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      setSearch(e.currentTarget.value);
+      debouncedDispatch();
+    };
+
+    return (
+      <Input.Wrapper label="Search">
+        <Input
+          value={search}
+          onChange={searchHandler}
+          icon={<IconSearch />}
+          placeholder={"provide yours text"}
+        />
+      </Input.Wrapper>
+    );
+  }
+);

@@ -19,7 +19,7 @@ export const routes = createBrowserRouter([
         element: <Packs />,
       },
       {
-        path: `/cards`,
+        path: `/cards/:packId`,
         element: <Cards />,
       },
       {

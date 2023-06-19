@@ -1,13 +1,13 @@
-import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { AllowedActs } from "@/common/AllowedActs.tsx";
+import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
+import { TableDataItem } from "@/common/TableDataItem.tsx";
+import { cardsActions } from "@/features/cards/cards.slice.ts";
+import { ColumnHeader } from "@/features/columnHeader/ColumnHeader.tsx";
 import { selectPacksFormatDate } from "@/features/packs/packs.selectors.ts";
 import { Table } from "@mantine/core";
 import React from "react";
-import { ColumnHeader } from "@/features/columnHeader/ColumnHeader.tsx";
-import s from "./PacksTable.module.scss";
-import { cardsThunks, setQueryParams } from "@/features/cards/cards.slice.ts";
 import { useNavigate } from "react-router-dom";
-import { TableDataItem } from "@/common/TableDataItem.tsx";
+import s from "./PacksTable.module.scss";
 
 export enum Column {
   NAME = "Name",
@@ -27,20 +27,13 @@ export const CurrentSorted: Record<string, ValuesToSort> = {
 };
 
 export const PacksTable = () => {
-  console.log("packstable rendering");
+  console.log("packs table rendering");
   const packs = useAppSelector(selectPacksFormatDate);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onClickPackTitle = (cardsPack_id: string) => {
-    dispatch(
-      setQueryParams({ params: { cardsPack_id, page: 0, pageCount: 7 } })
-    );
-    dispatch(cardsThunks.getCards())
-      .unwrap()
-      .then(() => {
-        navigate("/cards");
-      });
+    navigate(`/cards/${cardsPack_id}`);
   };
 
   const thead_columns = Array.from(Object.values(Column)).map((column_name) => {

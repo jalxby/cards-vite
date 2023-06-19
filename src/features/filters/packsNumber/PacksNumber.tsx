@@ -1,32 +1,39 @@
-import React, { useEffect, useState } from "react";
-import s from "@/features/filters/Filters.module.scss";
-import { Input, RangeSlider } from "@mantine/core";
-import { packsActions } from "@/features/packs/packs.slice.ts";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
-import { selectRangeMinMaxCards } from "@/features/packs/packs.selectors.ts";
+import s from "@/features/filters/Filters.module.scss";
+import {
+  selectMaxCardsCount,
+  selectMinCardsCount,
+  selectRangeMinMaxCards,
+} from "@/features/packs/packs.selectors.ts";
+import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
+import { Input, RangeSlider } from "@mantine/core";
+import React, { FC, useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
-export const PacksNumber = () => {
-  //@TODO пересмотреть получение минимального и максимального значений в слайдер
-  const minMaxCardsRange = useAppSelector(selectRangeMinMaxCards);
-  const [rangeValue, setRangeValue] =
-    useState<[number, number]>(minMaxCardsRange);
+type PropsType = {
+  setRangeValue: (value: [number, number]) => void;
+  rangeValue: [number, number];
+};
+
+export const PacksNumber: FC<PropsType> = ({ setRangeValue, rangeValue }) => {
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch(
-        packsActions.setQueryParams({
-          params: {
-            min: rangeValue[0],
-            max: rangeValue[1],
-          },
-        })
-      );
-    }, 800);
+  const debouncedDispatch = useDebouncedCallback((min: number, max: number) => {
+    dispatch(
+      packsActions.setQueryParams({
+        params: {
+          min,
+          max,
+        },
+      })
+    );
+    dispatch(packsThunks.getPacks());
+  }, 800);
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [rangeValue]);
+  const handleRangeValueChange = (value: [number, number]) => {
+    setRangeValue(value);
+    debouncedDispatch(value[0], value[1]);
+  };
+
   return (
     <Input.Wrapper label="Number of cards">
       <div className={s.slider}>
@@ -40,7 +47,7 @@ export const PacksNumber = () => {
           thumbSize={14}
           label={null}
           value={rangeValue}
-          onChange={setRangeValue}
+          onChange={handleRangeValueChange}
         />
         <Input
           className={s.numberInput}
