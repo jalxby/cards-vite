@@ -13,7 +13,6 @@ export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  // @TODO change signOut signature
   const signOut = () => {
     dispatch(authThunks.signOut())
       .unwrap()

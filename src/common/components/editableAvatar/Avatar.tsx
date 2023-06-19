@@ -10,7 +10,7 @@ export const EditableAvatar = () => {
   };
   return (
     <div className={s.container}>
-      <Avatar variant="outline" radius="xl" size="lg" src={myAvatar} />
+      <Avatar variant="outline" radius="50%" size="xl" src={myAvatar} />
       <div onClick={onClick} className={s.icon}>
         <CameraIcon />
       </div>
