@@ -33,7 +33,10 @@ const slice = createSlice({
       state.queryParams = { ...state.queryParams, ...action.payload.params };
     },
     clearQueryParams: (state) => {
-      state.queryParams = { pageCount: 5, packName: "" };
+      state.queryParams = {
+        pageCount: state.queryParams.pageCount,
+        packName: "",
+      };
     },
   },
   extraReducers: (builder) => {

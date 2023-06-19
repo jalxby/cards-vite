@@ -11,6 +11,7 @@ import s from "./Filters.module.scss";
 export const Filters = () => {
   const range = useAppSelector(selectRangeMinMaxCards);
   const [rangeValue, setRangeValue] = useState<[number, number]>(range);
+  const [search, setSearch] = useState<string>("");
   const dispatch = useAppDispatch();
   const debouncedSearchCallback = useCallback((search: string) => {
     dispatch(packsActions.setQueryParams({ params: { packName: search } }));
@@ -19,6 +20,8 @@ export const Filters = () => {
 
   const clearAllFilters = useCallback(() => {
     dispatch(packsActions.clearQueryParams());
+    setRangeValue(range);
+    setSearch("");
     dispatch(packsThunks.getPacks());
   }, []);
 
@@ -28,7 +31,11 @@ export const Filters = () => {
 
   return (
     <div className={s.filters}>
-      <Search debouncedSearchCallback={debouncedSearchCallback} />
+      <Search
+        debouncedSearchCallback={debouncedSearchCallback}
+        search={search}
+        setSearch={setSearch}
+      />
       <ButtonGroup />
       <PacksNumber rangeValue={rangeValue} setRangeValue={setRangeValue} />
       <ClearFilterButton clearAllFilters={clearAllFilters} />

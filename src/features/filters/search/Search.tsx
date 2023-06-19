@@ -7,12 +7,13 @@ import { useDebouncedCallback } from "use-debounce";
 
 type PropsType = {
   debouncedSearchCallback: (search: string) => void;
+  search: string;
+  setSearch: (value: string) => void;
 };
 
 export const Search: FC<PropsType> = React.memo(
-  ({ debouncedSearchCallback }) => {
+  ({ debouncedSearchCallback, search, setSearch }) => {
     console.log("search rendering");
-    const [search, setSearch] = useState<string>("");
 
     const debouncedDispatch = useDebouncedCallback(() => {
       debouncedSearchCallback(search);
