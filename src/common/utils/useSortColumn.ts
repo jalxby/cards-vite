@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectSort } from "@/features/packs/packs.selectors.ts";
-import { packsActions } from "@/features/packs/packs.slice.ts";
+import { packsActions, packsThunks } from "@/features/packs/packs.slice.ts";
 import { useState } from "react";
 
 type SortDirection = 0 | 1 | "";
@@ -29,6 +29,7 @@ export const useSortColumn = (): [
       sortPacks = "";
     }
     dispatch(packsActions.setQueryParams({ params: { sortPacks } }));
+    dispatch(packsThunks.getPacks());
   };
 
   return [sortedColumn, sortDirection, updateSortDirection];

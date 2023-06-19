@@ -8,7 +8,6 @@ type PropsType = {
 };
 
 export const TableDataItem: FC<PropsType> = React.memo(({ children }) => {
-  console.log("table item rendering");
   const isLoading = useAppSelector(selectIsLoading);
   return <Skeleton visible={isLoading}>{children}</Skeleton>;
 });

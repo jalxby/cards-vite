@@ -37,7 +37,15 @@ const slice = createSlice({
       )
       .addMatcher(
         (action) => {
-          return action.type.endsWith("/fulfilled");
+          return action.type.endsWith("getPacks/fulfilled");
+        },
+        (state, action) => {
+          state.isLoading = false;
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("auth/signOut/fulfilled");
         },
         (state, action) => {
           state.isLoading = false;
