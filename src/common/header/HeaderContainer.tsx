@@ -3,7 +3,7 @@ import { HeaderLogo } from "@/assets/HeaderLogo.tsx";
 import { useAppSelector } from "@/common/hooks/hooks.ts";
 import { globalRouter } from "@/common/utils/globalRouter.ts";
 import { selectName } from "@/features/auth/auth.selectors.ts";
-import { Button, Progress } from "@mantine/core";
+import { Progress } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 import s from "./HeaderContainer.module.scss";
 
@@ -19,12 +19,10 @@ export const HeaderContainer = () => {
       <div className={s.header}>
         <div className={s.headerContainer}>
           <HeaderLogo />
-          {name ? (
+          {name && (
             <>
               <NavLink to={"/profile"}>{name}</NavLink>
             </>
-          ) : (
-            <Button onClick={toSignIn}>Sign in</Button>
           )}
         </div>
       </div>
