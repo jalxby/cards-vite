@@ -1,3 +1,5 @@
+/* HeaderContainer.module.scss */
+
 
 .header {
   background: #FCFCFC;
@@ -15,17 +17,26 @@
     justify-content: space-between;
     align-items: center;
 
-    button {
-      border-radius: 30px;
-      background: #366EFF;
-      box-shadow: 0 4px 18px rgba(54, 110, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      width: 113px;
-      height: 36px;
+    .profileLink {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .avatar {
+        border: 1px solid black;
+      }
+
+      .menuItem {
+        box-shadow: none;
+        background-color: white;
+        border: none;
+      }
     }
+
+
   }
-
-
 }
+
 .progress {
   height: 10px;
   width: 100%;
