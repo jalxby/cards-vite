@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { PageHeader } from "@/common/PageHeader.tsx";
 import { authThunks } from "@/features/auth/auth.slice.ts";
 import { Filters } from "@/features/filters/Filters.tsx";
+import { AddNewPack } from "@/features/modals/packs/AddNewPack";
 import {
   selectActivePage,
   selectItemsPerPageData,
@@ -59,7 +60,12 @@ const Packs = () => {
 
   return (
     <div className={s.packsContainer}>
-      <PageHeader addButtonTitle={"Add new pack"} title={"Packs List"} />
+      <PageHeader
+        buttonTitle={"Add new pack"}
+        modalTitle={"Add new pack"}
+        modalType={(close) => <AddNewPack closeModal={close} />}
+        pageTitle={"Packs List"}
+      />
       <Filters />
       <PacksTable />
       <UniversalPagination

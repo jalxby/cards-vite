@@ -1,17 +1,21 @@
-import { BackArrowIcon } from "@/assets/BackArrowIcon";
-import { AddNewPack } from "@/features/modals/AddNewPack.tsx";
+import { PageTitle } from "@/common/pageHeader/PageTitle";
 import BasicModal from "@/features/modals/BasicModal.tsx";
-import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { AddNewPack } from "@/features/modals/packs/AddNewPack.tsx";
+import React, { FC, ReactNode } from "react";
 
 type PropsType = {
-  addButtonTitle: string;
-  title: string;
+  pageTitle: string;
+  buttonTitle: string;
+  modalTitle: string;
+  modalType: (close: () => void) => ReactNode;
 };
 
-export const PageHeader: FC<PropsType> = ({ title, addButtonTitle }) => {
-  const navigate = useNavigate();
-
+export const PageHeader: FC<PropsType> = ({
+  pageTitle,
+  modalTitle,
+  buttonTitle,
+  modalType,
+}) => {
   return (
     <div
       style={{
@@ -20,16 +24,9 @@ export const PageHeader: FC<PropsType> = ({ title, addButtonTitle }) => {
         alignItems: "center",
       }}
     >
-      <div>
-        <div onClick={() => navigate(-1)} style={{ cursor: "pointer" }}>
-          <BackArrowIcon />
-          {" Back to Packs List"}
-        </div>
-        <h3>{title}</h3>
-      </div>
-
-      <BasicModal buttonTitle={addButtonTitle} title={addButtonTitle}>
-        {(close) => <AddNewPack closeModal={close} />}
+      <PageTitle title={pageTitle} />
+      <BasicModal buttonTitle={buttonTitle} modalTitle={modalTitle}>
+        {modalType}
       </BasicModal>
     </div>
   );

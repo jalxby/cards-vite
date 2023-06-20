@@ -13,10 +13,12 @@ import { cardsActions, cardsThunks } from "@/features/cards/cards.slice";
 import { CardsTable } from "@/features/cards/cardsTable/CardsTable.tsx";
 import { Search } from "@/features/filters/search/Search.tsx";
 import { UniversalPagination } from "@/features/universalPagination/UniversalPagination.tsx";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import s from "./Cards.module.scss";
 
 const Cards = () => {
+  const [search, setSearch] = useState<string>("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { packId } = useParams();
@@ -74,9 +76,13 @@ const Cards = () => {
   }, []);
 
   return (
-    <div>
+    <div className={s.cardsContainer}>
       <PageHeader addButtonTitle={buttonTitle} title={packName} />
-      <Search debouncedSearchCallback={debouncedSearchCallback} />
+      <Search
+        debouncedSearchCallback={debouncedSearchCallback}
+        search={search}
+        setSearch={setSearch}
+      />
       {!isLoading && (
         <>
           <CardsTable />

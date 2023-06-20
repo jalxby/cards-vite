@@ -5,8 +5,8 @@ import { TeacherLogo } from "@/assets/TeacherLogo.tsx";
 import { useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectMyUserId } from "@/features/auth/auth.selectors.ts";
 import BasicModal from "@/features/modals/BasicModal.tsx";
-import { DeletePack } from "@/features/modals/DeletePack.tsx";
-import { UpdatePack } from "@/features/modals/UpdatePack.tsx";
+import { DeletePack } from "@/features/modals/packs/DeletePack.tsx";
+import { UpdatePack } from "@/features/modals/packs/UpdatePack.tsx";
 import { Skeleton } from "@mantine/core";
 import React, { FC } from "react";
 
