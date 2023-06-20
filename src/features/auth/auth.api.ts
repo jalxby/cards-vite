@@ -69,7 +69,7 @@ export type ArgSignInType = {
 
 export type ProfileModel = {
   name?: string;
-  avatar?: URL;
+  avatar?: URL | string;
 };
 type UpdatedUser = {
   updatedUser: ProfileType;
@@ -87,4 +87,5 @@ export type ProfileType = {
   __v: number;
   token: string;
   tokenDeathTime: number;
+  avatar?: string;
 };

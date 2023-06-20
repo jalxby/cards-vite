@@ -1,4 +1,4 @@
-import { EditableAvatar } from "@/common/components/editableAvatar/Avatar.tsx";
+import { EditableAvatar } from "@/common/components/editableAvatar/EditableAvatar.tsx";
 import { EditableSpan } from "@/common/EditableSpan.tsx";
 import { useAppDispatch, useAppSelector } from "@/common/hooks/hooks.ts";
 import { selectEmail } from "@/features/auth/auth.selectors.ts";
